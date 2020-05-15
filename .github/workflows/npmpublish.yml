@@ -14,10 +14,10 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 12
-      - env:
-          PUBLIC_NPM_TOKEN: ${{secrets.PUBLIC_NPM_TOKEN}}
       - run: npm install
       - run: npm run build
       - run: echo //registry.npmjs.org/:_authToken=$PUBLIC_NPM_TOKEN >> .npmrc
+        env:
+          PUBLIC_NPM_TOKEN: ${{secrets.PUBLIC_NPM_TOKEN}}
       - run: npm publish --access public
       - run: rm .npmrc
