@@ -1,9 +1,13 @@
-styleguide/
-styleguide.config.js
-styleguide.styles.js
 Dockerfile
 .gitlab-ci.yml
+.prettierrc.js
+.eslint.js
+.env
+.eslintignore
+.gitlab-ci.yml
 src/
+.github/
+
 
 # rest from .gitignore
 build/

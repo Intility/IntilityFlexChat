@@ -22,5 +22,6 @@ jobs:
       - run: echo //registry.npmjs.org/:_authToken=$PUBLIC_NPM_TOKEN >> .npmrc
         env:
           NODE_AUTH_TOKEN: ${{secrets.PUBLIC_NPM_TOKEN}}
+      - run: cat .npmrc
       - run: npm publish --access public
       - run: rm .npmrc
