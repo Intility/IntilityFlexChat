@@ -1,6 +1,3 @@
-# This workflow will run tests using node and then publish a package to GitHub Packages when a release is created
-# For more information see: https://help.github.com/actions/language-and-framework-guides/publishing-nodejs-packages
-
 name: Build and deploy package to npm
 
 on:
@@ -22,6 +19,5 @@ jobs:
       - run: npm install
       - run: npm run build
       - run: echo //registry.npmjs.org/:_authToken=$PUBLIC_NPM_TOKEN >> .npmrc
-      - run: cat .npmrc
       - run: npm publish --access public
       - run: rm .npmrc
