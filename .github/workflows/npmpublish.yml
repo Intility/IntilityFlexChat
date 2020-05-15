@@ -19,7 +19,7 @@ jobs:
         with:
           node-version: 12
       - run: |
-          echo $PUBLIC_NPM_TOKEN
+          echo >>> $PUBLIC_NPM_TOKEN
         env:
           PUBLIC_NPM_TOKEN: ${{secrets.PUBLIC_NPM_TOKEN}}
       - run: npm install
