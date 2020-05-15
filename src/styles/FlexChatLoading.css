@@ -1,0 +1,32 @@
+.flexLoader {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    flex-direction: row;
+    
+    position: fixed !important;
+    right: 24px;
+    bottom: 16px;
+    
+    min-width: 24px;
+    height: 24px;
+    
+    background-color: rgb(64,105,151);
+    border: none;
+    border-radius: 200px;
+    padding: 10px;
+}
+
+.flexLoader p {
+    font-size: 14px;
+    font-weight: 400;
+    overflow: hidden;
+    margin: auto;
+    margin-right: auto;
+    margin-right: 10px;
+    margin-left: 10px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 400;
+    color: rgb(230,230,230);
+}
