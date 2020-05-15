@@ -18,15 +18,12 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 12
-      - run: |
-          echo hello env $PUBLIC_NPM_TOKEN
-        env:
-          PUBLIC_NPM_TOKEN: ${{secrets.PUBLIC_NPM_TOKEN}}
       - run: npm install
       - run: npm run build
-      
-      - run: |
-          echo //registry.npmjs.org/:_authToken=$PUBLIC_NPM_TOKEN >> .npmrc
+      - uses: filipstefansson/set-npm-token-action@v1
+        with:
+          # your npm token
+          token: $PUBLIC_NPM_TOKEN
         env:
           PUBLIC_NPM_TOKEN: ${{secrets.PUBLIC_NPM_TOKEN}}
       - run: npm publish --access public
