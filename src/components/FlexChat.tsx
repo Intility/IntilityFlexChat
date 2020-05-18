@@ -26,6 +26,14 @@ const FlexChat: React.FC<FlexChatProps> = ({ children, config, isDarkMode, loadi
     const { flexFlowSid, flexAccountSid, user } = config;
 
     useEffect(() => {
+        if (!flexFlowSid) {
+            throw new Error('Missing required flexFlowSid in config object');
+        } else if (!flexAccountSid) {
+            throw new Error('Missing required flexAccountSid in config object');
+        }
+    }, [flexFlowSid, flexAccountSid]);
+
+    useEffect(() => {
         if (flexFlowSid && flexAccountSid && user) {
             if (manager) {
                 manager.updateConfig(chatConfigBase(config, isDarkMode));
@@ -44,8 +52,11 @@ const FlexChat: React.FC<FlexChatProps> = ({ children, config, isDarkMode, loadi
             FlexWebChat.MainHeader.defaultProps.imageUrl = logo;
             FlexWebChat.MainHeader.defaultProps.titleText = 'Support';
 
-            // FlexWebChat.MessagingCanvas.defaultProps.predefinedMessage = undefined;
-            // FlexWebChat.MessagingCanvas.defaultProps.autoInitChannel = true;
+            FlexWebChat.MessagingCanvas.defaultProps.predefinedMessage = {
+                body: 'Welcome to Intility. Please describe your issue.',
+                authorName: 'Intility Support',
+                isFromMe: false,
+            };
 
             FlexWebChat.Manager.create(chatConfig)
                 .then((manager) => {
