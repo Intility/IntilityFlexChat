@@ -14,17 +14,14 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
-        with:
-          node-version: 12
-      - run: npm install
-      - run: npm run build
-      - uses: filipstefansson/set-npm-token-action@v1
-        with:
-          # your npm token
-          token: $PUBLIC_NPM_TOKEN
-        env:
-          PUBLIC_NPM_TOKEN: ${{secrets.PUBLIC_NPM_TOKEN}}
-      - run: npm publish --access public
-      - run: rm .npmrc
+    - uses: actions/checkout@v2
+    # Setup .npmrc file to publish to npm
+    - uses: actions/setup-node@v1
+      with:
+        node-version: '12.x'
+        registry-url: 'https://registry.npmjs.org'
+    - run: npm install
+    - run: npm run build
+    - run: npm publish
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
