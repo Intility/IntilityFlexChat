@@ -15,8 +15,7 @@
     "license": "ISC",
     "deprecated": false,
     "repository": {
-        "url": "https://gitlab.intility.no/TechnicalServices/Callview/chat/flex-chat",
-        "type": ""
+        "url": "https://github.com/Intility/IntilityFlexChat"
     },
     "scripts": {
         "start": "react-scripts start",
@@ -35,7 +34,7 @@
     },
     "devDependencies": {
         "@babel/cli": "^7.8.4",
-        "@babel/core": "^7.9.0",
+        "@babel/core": "^7.9.6",
         "@babel/plugin-proposal-class-properties": "^7.8.3",
         "@babel/preset-env": "^7.9.5",
         "@babel/preset-react": "^7.9.4",

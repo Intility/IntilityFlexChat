@@ -99,7 +99,7 @@ const App: React.FC = (props) => {
         <div>
             <FlexChat
                 config={chatConfig}
-                isDarkMode={true}
+                isDarkMode={isDarkMode}
                 loadingCompoment={<FlexChatLoading />}
             />
         <div/>
