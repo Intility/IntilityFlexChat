@@ -12,8 +12,7 @@
 <!------------------------------------------------------------------------------------>
 
 # Intility Chat
-
-[![pipeline status](https://gitlab.intility.no/TechnicalServices/Callview/chat/flex-chat/badges/master/pipeline.svg)](https://gitlab.intility.no/TechnicalServices/Callview/chat/flex-chat/-/commits/master)
+![Build and deploy package to npm](https://github.com/Intility/IntilityFlexChat/workflows/Build%20and%20deploy%20package%20to%20npm/badge.svg?event=project)
 
 <!-- Describe the project briefly here. -->
 <!-- Also, unless it's clear: specify what type of project it is; API, library, application, collection of scripts, etc -->
