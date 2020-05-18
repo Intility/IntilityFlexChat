@@ -22,7 +22,9 @@ jobs:
         registry-url: 'https://registry.npmjs.org'
     - run: npm install
     - run: npm run build
-    - run: echo //registry.npmjs.org/:_authToken=$NPM_TOKEN >> .npmrc
+    - uses: filipstefansson/set-npm-token-action@v1
+      with:
+        token: ${{ secrets.NPM_TOKEN }}
     - run: ls
     - run: cat .npmrc
     - run: npm publish
