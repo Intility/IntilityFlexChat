@@ -11,7 +11,7 @@ defaults:
     shell: bash
 
 jobs:
-  build:
+  npm-publish:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
