@@ -18,6 +18,7 @@ const App: React.FC = (props) => {
             userPrincipalName: 'Anonymous Hippopotamus',
             mail: 'Anonymous.Hippopotamus@intility.no',
             mobilePhone: '46836822',
+            preferredLanguage: 'nb-NO',
         },
     };
 

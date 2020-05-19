@@ -10,6 +10,8 @@ export type UserConfigProps = {
     userPrincipalName: string;
     mail: string;
     mobilePhone: string;
+    preferredLanguage: string;
+    [key: string]: string | number | boolean;
 };
 
 export type ManagerState = {

@@ -6,6 +6,7 @@ import FlexChatLoading from './FlexChatLoading';
 import { ManagerState, ConfigProps } from '../interfaces/FlexChat';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Loader from '../assets/loader.svg';
 
 import '../styles/FlexChatError.css';
 
@@ -89,7 +90,13 @@ const FlexChat: React.FC<FlexChatProps> = ({ children, config, isDarkMode, loadi
             {loading && (
                 <FlexChatLoading>
                     <p>Loading</p>
-                    {loadingCompoment}
+                    {loadingCompoment || (
+                        <img
+                            style={{ height: '24px', width: '24px' }}
+                            src={Loader}
+                            alt="Loading spinner"
+                        />
+                    )}
                 </FlexChatLoading>
             )}
             {manager && (
