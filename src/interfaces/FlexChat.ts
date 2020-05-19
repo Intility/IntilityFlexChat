@@ -3,16 +3,18 @@ import { Manager } from '@twilio/flex-webchat-ui';
 export type ConfigProps = {
     flexFlowSid?: string;
     flexAccountSid?: string;
-    user: UserConfigProps;
+    user: ChatContext;
 };
 
-export type UserConfigProps = {
+export type ChatContext = {
     userPrincipalName: string;
     mail: string;
     mobilePhone: string;
     preferredLanguage: string;
-    [key: string]: string | number | boolean;
+    [key: string]: AllowedValues;
 };
+
+export type AllowedValues = string | number | boolean | string[] | number[] | boolean[];
 
 export type ManagerState = {
     loading: boolean;
