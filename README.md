@@ -74,6 +74,8 @@ type UserConfigProps = {
 };
 ```
 
+#### Loading Spinner
+
 ### Example configuration
 
 ```typescript
@@ -99,7 +101,7 @@ const App: React.FC = (props) => {
             <FlexChat
                 config={chatConfig}
                 isDarkMode={isDarkMode}
-                loadingCompoment={<FlexChatLoading />}
+                loadingCompoment={<Spinner />}
             />
         <div/>
     );
