@@ -2,9 +2,8 @@ name: Build and deploy package to npm
 
 on:
   push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
+    branches:
+      - master
 
 defaults:
   run:
