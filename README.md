@@ -103,6 +103,7 @@ const App: React.FC = (props) => {
             userPrincipalName: 'ola.normann@intility.no',
             mail: 'ola.normann@intility.no',
             mobilePhone: '815-493-00',
+            preferredLanguage: 'nb-NO'
         },
     };
 
