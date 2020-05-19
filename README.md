@@ -71,14 +71,22 @@ type UserConfigProps = {
     userPrincipalName: string;
     mail: string;
     mobilePhone: string;
+    preferredLanguage: string;
+    [key: string]: string | number | boolean;
 };
 ```
 
+### Optional Configuration
+
 #### Loading Spinner
+
+An custom Loading spinner can be provided by using the `loadingCompoment` prop on FlexChat.
+
+If this value is not provided, a default loading spinner is displayed.
 
 ### Example configuration
 
-```typescript
+```ts
 import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 import { FlexChat, ConfigProps } from '@intility/flex-chat/dist/index';

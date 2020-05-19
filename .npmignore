@@ -11,6 +11,7 @@ src/
 
 # rest from .gitignore
 build/
+dist/
 .cache/
 **/cypress/videos
 **/cypress/screenshots
