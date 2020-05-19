@@ -55,7 +55,7 @@ but may extend to things such as platform specific steps, etc.
 
 **NOTE:** If you haven't got these keys, please contact your provided Intility Contact.
 
-```bash
+```sh
 REACT_APP_ACCOUNT_SID=xxxxx
 REACT_APP_FLOW_SID=xxxxx
 ```
@@ -66,13 +66,15 @@ Since this package initializes an chat session with an Intility Support Agent th
 
 **NOTE:** This components does not give other requirements to authentication implementations but to provide the components with these values.
 
-```typescript
+```ts
+type AllowedValues = string | number | boolean | string[] | number[] | boolean[]
+
 type UserConfigProps = {
     userPrincipalName: string;
     mail: string;
     mobilePhone: string;
     preferredLanguage: string;
-    [key: string]: string | number | boolean;
+    [key: string]: AllowedValues;
 };
 ```
 
