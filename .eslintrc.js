@@ -22,5 +22,10 @@ module.exports = {
         "prettier/prettier": ["error", {
             "endOfLine":"auto"
           }],
+    },
+    settings: {
+        react: {
+            version: "detect"
+        }
     }
 };
