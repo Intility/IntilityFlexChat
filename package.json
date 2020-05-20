@@ -88,7 +88,7 @@
     },
     "husky": {
         "hooks": {
-            "pre-commit": "echo Runn && npm run lint:fix"
+            "pre-commit": "echo -e \\e[32mRunning Precommit hook && npm run lint:fix"
         }
     }
 }
