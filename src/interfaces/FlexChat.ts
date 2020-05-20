@@ -14,7 +14,15 @@ export type ChatContext = {
     [key: string]: AllowedValues;
 };
 
-export type AllowedValues = string | number | boolean | string[] | number[] | boolean[];
+export type AllowedValues =
+    | string
+    | number
+    | boolean
+    | undefined
+    | null
+    | string[]
+    | number[]
+    | boolean[];
 
 export type ManagerState = {
     loading: boolean;

@@ -4,7 +4,7 @@ import chatConfigBase from '../config/chat/chatAppConfig';
 import logo from '../assets/logo.png';
 import FlexChatLoading from './FlexChatLoading';
 import { ManagerState, ConfigProps } from '../interfaces/FlexChat';
-import { faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faTimes, faExclamationCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Loader from '../assets/loader.svg';
 
@@ -17,7 +17,7 @@ export type FlexChatProps = {
     loadingCompoment?: ReactNode;
 };
 
-const FlexChat: React.FC<FlexChatProps> = ({ children, config, isDarkMode, loadingCompoment }) => {
+const FlexChat: React.FC<FlexChatProps> = ({ config, isDarkMode, loadingCompoment }) => {
     const [managerState, setManagerState] = useState<ManagerState>({
         loading: false,
         manager: undefined,
@@ -25,6 +25,8 @@ const FlexChat: React.FC<FlexChatProps> = ({ children, config, isDarkMode, loadi
     });
     const { manager, loading, error } = managerState;
     const { flexFlowSid, flexAccountSid, user } = config;
+
+    const isNorwegian = user.preferredLanguage.includes('-NO');
 
     useEffect(() => {
         if (!flexFlowSid) {
@@ -49,12 +51,16 @@ const FlexChat: React.FC<FlexChatProps> = ({ children, config, isDarkMode, loadi
 
             const chatConfig = chatConfigBase(config, isDarkMode);
 
-            FlexWebChat.EntryPoint.defaultProps.tagline = 'Chat with us!';
+            FlexWebChat.EntryPoint.defaultProps.tagline = isNorwegian
+                ? 'Snakk med oss'
+                : 'Chat with us';
             FlexWebChat.MainHeader.defaultProps.imageUrl = logo;
             FlexWebChat.MainHeader.defaultProps.titleText = 'Support';
 
             FlexWebChat.MessagingCanvas.defaultProps.predefinedMessage = {
-                body: 'Welcome to Intility. Please describe your issue.',
+                body: isNorwegian
+                    ? 'Velkommen til Intility Chat Support. Vennligst beskriv ditt problem.'
+                    : 'Welcome to Intility Chat Support. Please describe your issue',
                 authorName: 'Intility Support',
                 isFromMe: false,
             };
@@ -84,12 +90,16 @@ const FlexChat: React.FC<FlexChatProps> = ({ children, config, isDarkMode, loadi
             {error && (
                 <FlexChatLoading>
                     <p>Error Initializing Chat</p>
-                    <FontAwesomeIcon className={'flexChatError'} icon={faTimes} color="#FF1A2D" />
+                    <FontAwesomeIcon
+                        className={'flexChatError'}
+                        icon={faExclamationCircle}
+                        color="#D96E8B"
+                    />
                 </FlexChatLoading>
             )}
             {loading && (
                 <FlexChatLoading>
-                    <p>Loading</p>
+                    {isNorwegian ? <p>Laster inn Chat</p> : <p>Loading Chat</p>}
                     {loadingCompoment || (
                         <img
                             style={{ height: '24px', width: '24px' }}
