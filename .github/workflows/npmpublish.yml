@@ -22,8 +22,11 @@ jobs:
       with:
         node-version: '12.x'
         registry-url: 'https://registry.npmjs.org'
+        
+    # Scan dependencies for vulnerabilities
+    - uses: snyk/actions@0.1.1
     
-        # Create .npmrc file with token from secret
+    # Create .npmrc file with token from secret
     - uses: filipstefansson/set-npm-token-action@v1
       with:
         token: ${{ secrets.NPM_TOKEN }}
