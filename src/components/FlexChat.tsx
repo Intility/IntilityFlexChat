@@ -4,7 +4,7 @@ import chatConfigBase from '../config/chat/chatAppConfig';
 import logo from '../assets/logo.png';
 import FlexChatLoading from './FlexChatLoading';
 import { ManagerState, ConfigProps } from '../interfaces/FlexChat';
-import { faTimes, faExclamationCircle } from '@fortawesome/free-solid-svg-icons';
+import { faExclamationCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Loader from '../assets/loader.svg';
 
@@ -59,8 +59,8 @@ const FlexChat: React.FC<FlexChatProps> = ({ config, isDarkMode, loadingCompomen
 
             FlexWebChat.MessagingCanvas.defaultProps.predefinedMessage = {
                 body: isNorwegian
-                    ? 'Velkommen til Intility Chat Support. Vennligst beskriv ditt problem.'
-                    : 'Welcome to Intility Chat Support. Please describe your issue',
+                    ? 'Velkommen til Intility Chat Support. For å starte chaten, vennligst skriv hei.'
+                    : 'Welcome to Intility Chat Support. To start the chat, please say hi',
                 authorName: 'Intility Support',
                 isFromMe: false,
             };
