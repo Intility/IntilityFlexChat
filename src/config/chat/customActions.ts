@@ -1,6 +1,6 @@
-import * as FlexWebChat from '@twilio/flex-webchat-ui';
+import { Manager } from '@twilio/flex-webchat-ui';
 
-const initActions = (manager: FlexWebChat.Manager) => {
+const initActions = (manager: Manager) => {
     console.log('init actions');
     /* FlexWebChat.Actions.addListener('afterStartEngagement', (props: any) => {
         console.log('props: ', props);

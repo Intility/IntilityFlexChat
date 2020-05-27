@@ -1,27 +1,13 @@
-<!-- template available at https://gitlab.intility.no/Intility/readme-template -->
-
-<!-- Badges -->
-<!-- While not required, badges are recommended; and in particular pipeline status -->
-<!-- Uncomment the below line and replace `project` with the path to your project (e.g. -->
-<!-- `group[s]/project`). If you want the status for a different branch than `master`, change -->
-<!-- the branch too.-->
-<!-- [![pipeline status](https://gitlab.intility.no/<project>/master/pipeline.svg)](https://gitlab.intility.no/<project>/pipelines)   -->
-
-<!------------------------------------------------------------------------------------>
-<!-- REQUIRED -->
-<!------------------------------------------------------------------------------------>
-
 # Intility Chat
+
 ![Build and deploy package to npm](https://github.com/Intility/IntilityFlexChat/workflows/Build%20and%20deploy%20package%20to%20npm/badge.svg)
 
-<!-- Describe the project briefly here. -->
-<!-- Also, unless it's clear: specify what type of project it is; API, library, application, collection of scripts, etc -->
-Intility Chat is a React Component that wraps [Twilio's WebChat UI](https://www.npmjs.com/package/@twilio/flex-webchat-ui) with basic configuartion and theme. 
+Intility Chat is a React Component that wraps [Twilio's WebChat UI](https://www.npmjs.com/package/@twilio/flex-webchat-ui) with basic configuration and theme.
 
 ## Purpose
 
 <!-- What does the application do and why? What problem does it solve? -->
-Intility Chat makes it easy for third parties to implement a customized version of Flex WebChat UI that is tailored to fit our design guidelines and then deliver an consistent user experience to the end user. 
+Intility Chat makes it easy for third parties to implement a customized version of Flex WebChat UI that is tailored to fit our design guidelines and then deliver an consistent user experience to the end user.
 
 ## Intended consumers
 
@@ -41,13 +27,11 @@ This project utilizes among others the following libraries:
   
 ## Getting Started
 
-<!--
-Provide step by step instructions that will allow a new contributor to get a copy of the project up and running on their local machine.
-Installation of common development tools such as `git`, `docker` and IDEs can be covered here, but is not necessary.
+### Installation
 
-The granularity and extent of these instructions will depend on the size and type of the project,
-but may extend to things such as platform specific steps, etc.
--->
+```bash
+npm i @intility/flex-chat
+```
 
 ### Required Configuration
 
@@ -55,7 +39,7 @@ but may extend to things such as platform specific steps, etc.
 
 **NOTE:** If you haven't got these keys, please contact your provided Intility Contact.
 
-```sh
+```env
 REACT_APP_ACCOUNT_SID=xxxxx
 REACT_APP_FLOW_SID=xxxxx
 ```
@@ -67,7 +51,7 @@ Since this package initializes an chat session with an Intility Support Agent th
 **NOTE:** This components does not give other requirements to authentication implementations but to provide the components with these values.
 
 ```ts
-type AllowedValues = string | number | boolean | string[] | number[] | boolean[]
+type AllowedValues = string | number | boolean | undefined | null | string[] | number[] | boolean[];
 
 type UserConfigProps = {
     userPrincipalName: string;
@@ -110,7 +94,7 @@ const App: React.FC = (props) => {
     return (
         <div>
             <FlexChat
-                config={chatConfig}
+                config={config}
                 isDarkMode={isDarkMode}
                 loadingCompoment={<Spinner />}
             />
@@ -120,3 +104,7 @@ const App: React.FC = (props) => {
 
 ReactDOM.render(<App />, document.getElementById('root'));
 ```
+
+## Illustration
+
+![Successful chat setup](https://i.imgur.com/pMNk5mL.png)
