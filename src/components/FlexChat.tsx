@@ -1,5 +1,13 @@
 import React, { useState, useEffect, ReactNode } from 'react';
-import * as FlexWebChat from '@twilio/flex-webchat-ui';
+import {
+    Manager,
+    EntryPoint,
+    MainHeader,
+    MessagingCanvas,
+    ContextProvider,
+    RootContainer,
+    MessageBubble,
+} from '@twilio/flex-webchat-ui';
 import chatConfigBase from '../config/chat/chatAppConfig';
 import logo from '../assets/logo.png';
 import FlexChatLoading from './FlexChatLoading';
@@ -9,6 +17,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Loader from '../assets/loader.svg';
 
 import '../styles/FlexChatError.css';
+import MessageBubbleHeader from './MessageBubbleHeader';
 
 export type FlexChatProps = {
     children?: React.ReactNode;
@@ -51,13 +60,14 @@ const FlexChat: React.FC<FlexChatProps> = ({ config, isDarkMode, loadingCompomen
 
             const chatConfig = chatConfigBase(config, isDarkMode);
 
-            FlexWebChat.EntryPoint.defaultProps.tagline = isNorwegian
-                ? 'Snakk med oss'
-                : 'Chat with us';
-            FlexWebChat.MainHeader.defaultProps.imageUrl = logo;
-            FlexWebChat.MainHeader.defaultProps.titleText = 'Support';
+            EntryPoint.defaultProps.tagline = isNorwegian ? 'Snakk med oss' : 'Chat with us';
+            MainHeader.defaultProps.imageUrl = logo;
+            MainHeader.defaultProps.titleText = 'Support';
 
-            FlexWebChat.MessagingCanvas.defaultProps.predefinedMessage = {
+            MessageBubble.Content.remove('header');
+            MessageBubble.Content.add(<MessageBubbleHeader key="newHeader" />, { sortOrder: 0 });
+
+            MessagingCanvas.defaultProps.predefinedMessage = {
                 body: isNorwegian
                     ? 'Velkommen til Intility Chat Support. For å starte chaten, vennligst skriv hei.'
                     : 'Welcome to Intility Chat Support. To start the chat, please say hi',
@@ -65,7 +75,7 @@ const FlexChat: React.FC<FlexChatProps> = ({ config, isDarkMode, loadingCompomen
                 isFromMe: false,
             };
 
-            FlexWebChat.Manager.create(chatConfig)
+            Manager.create(chatConfig)
                 .then((manager) => {
                     setManagerState({
                         loading: false,
@@ -110,9 +120,9 @@ const FlexChat: React.FC<FlexChatProps> = ({ config, isDarkMode, loadingCompomen
                 </FlexChatLoading>
             )}
             {manager && (
-                <FlexWebChat.ContextProvider manager={manager}>
-                    <FlexWebChat.RootContainer />
-                </FlexWebChat.ContextProvider>
+                <ContextProvider manager={manager}>
+                    <RootContainer />
+                </ContextProvider>
             )}
         </>
     );
