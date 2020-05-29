@@ -29,8 +29,16 @@ This project utilizes among others the following libraries:
 
 ### Installation
 
+#### NPM
+
 ```bash
 npm i @intility/flex-chat
+```
+
+#### CDN
+
+```html
+<script src="https://unpkg.com/@intility/flex-chat@1/dist/index.js"></script>
 ```
 
 ### Required Configuration
