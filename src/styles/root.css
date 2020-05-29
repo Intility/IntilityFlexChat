@@ -14,3 +14,8 @@
 .Twilio-MessageBubble-Body {
     font-size: 13px !important;
 }
+
+.Twilio-MessageBubble-Body li {
+    margin-left: 15px;
+}
+
