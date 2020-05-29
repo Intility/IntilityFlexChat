@@ -16,7 +16,7 @@ const MessageBubbleHeader: React.FC<MessageBubbleHeaderProps> = ({ member, messa
                 overflow: 'hidden',
                 whiteSpace: 'nowrap',
                 flexGrow: 1,
-                fontSize: '10px',
+                fontSize: '13px',
                 fontWeight: 'bold',
                 marginRight: '8px',
                 marginBottom: '0px',
@@ -24,7 +24,7 @@ const MessageBubbleHeader: React.FC<MessageBubbleHeaderProps> = ({ member, messa
         >
             {member?.friendlyName}
         </span>
-        <span style={{ fontSize: '10px', marginBottom: '0px' }}>
+        <span style={{ fontSize: '13px', marginBottom: '0px' }}>
             {message?.source.timestamp.toTimeString().slice(0, 5)}
         </span>
     </div>

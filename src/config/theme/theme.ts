@@ -9,3 +9,5 @@ export const theme = {
     primaryColor: 'rgb(64,105,151)',
     primaryColorHover: 'rgb(61,99,143)',
 };
+
+export const fontSize = '13px !important';

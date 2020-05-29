@@ -10,3 +10,7 @@
 .Twilio-MessageCanvasTray-default p {
     font-size: 1rem;
 }
+
+.Twilio-MessageBubble-Body {
+    font-size: 13px !important;
+}

@@ -1,4 +1,4 @@
-import { theme } from '../theme/theme';
+import { theme, fontSize } from '../theme/theme';
 import { DeepPartial, Theme } from '@twilio/flex-webchat-ui';
 
 const primaryColors = {
@@ -35,9 +35,11 @@ export const generateTheme = (isDarkMode: boolean): DeepPartial<Theme> => ({
         WelcomeMessage: {
             Container: {
                 color: isDarkMode ? theme.textLight : theme.textDark,
+                fontSize: '14px !important',
             },
             Icon: {
                 color: isDarkMode ? theme.textLight : theme.textDark,
+                fontSize: '14px !important',
             },
         },
         MessageListItem: {
@@ -73,6 +75,7 @@ export const generateTheme = (isDarkMode: boolean): DeepPartial<Theme> => ({
             Container: {
                 background: isDarkMode ? theme.mediumGreyBackground : theme.lightGreyBackground,
                 color: isDarkMode ? theme.textLight : theme.textDark,
+                fontSize: '14px !important',
                 '::placeholder': {
                     color: isDarkMode ? theme.textLight : theme.textDark,
                 },
