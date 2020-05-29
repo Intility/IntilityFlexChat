@@ -79,6 +79,23 @@ To start the chat, please say **hi**`,
 
             Manager.create(chatConfig)
                 .then((manager) => {
+                    if (isNorwegian) {
+                        manager.strings = {
+                            ...manager.strings,
+                            MessageCanvasTrayContent: `
+                            <h6>Takk for at du snakket med oss!</h6>
+                            <p>Hvis du har noen flere spørsmål. Vennligst ta kontakt med oss igjen.</p>`,
+                            MessageCanvasTrayButton: `Start en ny chat`,
+                            InputPlaceHolder: `Skriv melding`,
+                            Today: `I dag`,
+                            Yesterday: `I går`,
+                            WelcomeMessage: `Velkommen til kundesupport`,
+                            SendMessageTooltip: `Send melding`,
+                            AttachFileImageTooltip: `Legg til fil`,
+                            Read: `Lest`,
+                        };
+                    }
+
                     setManagerState({
                         loading: false,
                         error: undefined,
