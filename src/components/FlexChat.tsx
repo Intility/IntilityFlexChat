@@ -35,7 +35,7 @@ const FlexChat: React.FC<FlexChatProps> = ({ config, isDarkMode, loadingCompomen
     const { manager, loading, error } = managerState;
     const { flexFlowSid, flexAccountSid, user } = config;
 
-    const isNorwegian = user.preferredLanguage.includes('-NO');
+    const isNorwegian = user.preferredLanguage?.includes('-NO');
 
     useEffect(() => {
         if (!flexFlowSid) {
