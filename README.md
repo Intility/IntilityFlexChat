@@ -119,7 +119,6 @@ const App: React.FC = (props) => {
                 config={config}
                 isDarkMode={isDarkMode}
                 isDisabled={false}
-                loadingCompoment={<Spinner />}
             />
         <div/>
     );
