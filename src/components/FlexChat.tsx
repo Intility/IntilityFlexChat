@@ -1,4 +1,4 @@
-import React, { useState, useEffect, ReactNode } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     Manager,
     EntryPoint,
@@ -11,22 +11,21 @@ import {
 import chatConfigBase from '../config/chat/chatAppConfig';
 import logo from '../assets/logo.png';
 import FlexChatLoading from './FlexChatLoading';
-import { ManagerState, ConfigProps } from '../interfaces/FlexChat';
+import { ManagerState, FlexChatProps } from '../interfaces/FlexChat';
 import { faExclamationCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Loader from '../assets/loader.svg';
+import { version } from '../../package.json';
 
 import '../styles/FlexChatError.css';
 import MessageBubbleHeader from './MessageBubbleHeader';
 
-export type FlexChatProps = {
-    children?: React.ReactNode;
-    config: ConfigProps;
-    isDarkMode: boolean;
-    loadingCompoment?: ReactNode;
-};
-
-const FlexChat: React.FC<FlexChatProps> = ({ config, isDarkMode, loadingCompoment }) => {
+const FlexChat: React.FC<FlexChatProps> = ({
+    config,
+    isDarkMode,
+    loadingCompoment,
+    isDisabled,
+}) => {
     const [managerState, setManagerState] = useState<ManagerState>({
         loading: false,
         manager: undefined,
@@ -48,7 +47,7 @@ const FlexChat: React.FC<FlexChatProps> = ({ config, isDarkMode, loadingCompomen
     useEffect(() => {
         if (flexFlowSid && flexAccountSid && user) {
             if (manager) {
-                manager.updateConfig(chatConfigBase(config, isDarkMode));
+                manager.updateConfig(chatConfigBase(config, isDarkMode, isDisabled));
                 return;
             }
 
@@ -58,7 +57,9 @@ const FlexChat: React.FC<FlexChatProps> = ({ config, isDarkMode, loadingCompomen
                 error: undefined,
             });
 
-            const chatConfig = chatConfigBase(config, isDarkMode);
+            console.info(`Intility FlexChat: Initializing Intility Chat - v${version}`);
+
+            const chatConfig = chatConfigBase(config, isDarkMode, isDisabled);
 
             EntryPoint.defaultProps.tagline = isNorwegian ? 'Snakk med oss' : 'Chat with us';
             MainHeader.defaultProps.imageUrl = logo;
@@ -95,6 +96,7 @@ To start the chat, please say **hi**`,
                             Read: `Lest`,
                         };
                     }
+                    console.info(`Intility FlexChat: Chat Manager successfully initialized.`);
 
                     setManagerState({
                         loading: false,
@@ -109,7 +111,7 @@ To start the chat, please say **hi**`,
                         manager: undefined,
                         error: error.message,
                     });
-                    console.error(`Flex chat error: ${error.message}`);
+                    console.error(`Intility FlexChat: Flex chat error: ${error.message}`);
                 });
         }
     }, [config, flexAccountSid, flexFlowSid, isDarkMode, manager, user]);

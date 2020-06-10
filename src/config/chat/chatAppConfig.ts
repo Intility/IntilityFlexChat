@@ -4,8 +4,8 @@ import { ConfigProps } from '../../interfaces/FlexChat';
 
 //import preEngagementConfig from './preEngagementForm';
 
-const config = (config: ConfigProps, isDarkMode: boolean): Config => ({
-    available: true,
+const config = (config: ConfigProps, isDarkMode: boolean, isDisabled = false): Config => ({
+    available: !isDisabled,
     accountSid: config.flexAccountSid,
     flexFlowSid: config.flexFlowSid,
     colorTheme: {
