@@ -6,7 +6,7 @@ export type FlexChatProps = {
     config: ConfigProps;
     isDarkMode: boolean;
     loadingCompoment?: ReactNode;
-    isDisabled: boolean;
+    isDisabled?: boolean;
 };
 
 export type ConfigProps = {

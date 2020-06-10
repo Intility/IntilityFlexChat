@@ -24,7 +24,7 @@ const FlexChat: React.FC<FlexChatProps> = ({
     config,
     isDarkMode,
     loadingCompoment,
-    isDisabled,
+    isDisabled = false,
 }) => {
     const [managerState, setManagerState] = useState<ManagerState>({
         loading: false,
