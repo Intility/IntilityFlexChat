@@ -52,6 +52,20 @@ REACT_APP_ACCOUNT_SID=xxxxx
 REACT_APP_FLOW_SID=xxxxx
 ```
 
+#### Properties
+
+```ts
+type FlexChatProps = {
+    children?: ReactNode;
+    config: ConfigProps;
+    isDarkMode: boolean;
+    loadingCompoment?: ReactNode;
+    isDisabled?: boolean;
+};
+```
+
+**NOTE:** The properties marked with `?` is optional.
+
 #### Authentication
 
 Since this package initializes an chat session with an Intility Support Agent there is a requirement to provide a authenticated users details in the config object.
@@ -104,7 +118,7 @@ const App: React.FC = (props) => {
             <FlexChat
                 config={config}
                 isDarkMode={isDarkMode}
-                loadingCompoment={<Spinner />}
+                isDisabled={false}
             />
         <div/>
     );
