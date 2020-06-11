@@ -22,11 +22,21 @@ jobs:
       - run: npm install
       - run: npm run build
 
+      - uses: actions/upload-artifact@v1
+        with:
+          name: repo
+          path: .
+
   npm-publish:
     runs-on: ubuntu-latest
     name: Publish to public artifactory
     needs: build
     steps:
+      - name: Download Cache
+        uses: actions/download-artifact@v1
+        with:
+          name: repo
+
       # Setup .npmrc file to publish to npm
       - uses: actions/setup-node@v1
         with:
@@ -45,4 +55,9 @@ jobs:
     name: Publish to private artifactory
     needs: build
     steps:
-      - run: echo Hello World
+      - name: Download Cache
+        uses: actions/download-artifact@v1
+        with:
+          name: repo
+
+      - run: ls
