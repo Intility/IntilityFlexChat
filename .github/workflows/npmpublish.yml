@@ -1,9 +1,9 @@
 name: Build and deploy package to npm
 
-on:
-  push:
-    branches:
-      - master
+# on:
+#  push:
+#    branches:
+#      - master
 
 defaults:
   run:
@@ -12,12 +12,14 @@ defaults:
 jobs:
   build:
     runs-on: ubuntu-latest
+    name: Build application
     steps:
       - run: npm install
       - run: npm run build
 
   npm-publish:
     runs-on: ubuntu-latest
+    name: Publish to public artifactory
     needs: build
     steps:
       # Default git setup
@@ -34,11 +36,11 @@ jobs:
         with:
           token: ${{ secrets.NPM_TOKEN }}
 
-      # publish to npm public registry
       - run: npm publish
 
   intility-publish:
     runs-on: ubuntu-latest
+    name: Publish to private artifactory
     needs: build
     steps:
       - run: echo Hello World
