@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - master
+      - qa
 
 defaults:
   run:
