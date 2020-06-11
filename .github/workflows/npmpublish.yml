@@ -1,9 +1,10 @@
 name: Build and deploy package to npm
 
-# on:
-#  push:
-#    branches:
-#      - master
+on:
+  push:
+    branches:
+      - master
+      - qa
 
 defaults:
   run:
