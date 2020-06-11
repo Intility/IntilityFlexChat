@@ -4,38 +4,20 @@ on:
   push:
     branches:
       - master
-      - qa
 
 defaults:
   run:
     shell: bash
 
 jobs:
-  build:
+  npm-publish:
     runs-on: ubuntu-latest
-    name: Build application
-
     steps:
       # Default git setup
       - uses: actions/checkout@v2
 
       - run: npm install
       - run: npm run build
-
-      - uses: actions/upload-artifact@v1
-        with:
-          name: repo
-          path: .
-
-  npm-publish:
-    runs-on: ubuntu-latest
-    name: Publish to public artifactory
-    needs: build
-    steps:
-      - name: Download Cache
-        uses: actions/download-artifact@v1
-        with:
-          name: repo
 
       # Setup .npmrc file to publish to npm
       - uses: actions/setup-node@v1
@@ -44,20 +26,28 @@ jobs:
           registry-url: "https://registry.npmjs.org"
 
           # Create .npmrc file with token from secret
-      - uses: filipstefansson/set-npm-token-action@v1
-        with:
-          token: ${{ secrets.NPM_TOKEN }}
+      #- uses: filipstefansson/set-npm-token-action@v1
+      # with:
+      # token: ${{ secrets.NPM_TOKEN }}
 
+      # Install, build and publish
       - run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
-  intility-publish:
-    runs-on: ubuntu-latest
-    name: Publish to private artifactory
-    needs: build
-    steps:
-      - name: Download Cache
-        uses: actions/download-artifact@v1
+      # Setup .npmrc file to publish to npm
+      - uses: actions/setup-node@v1
         with:
-          name: repo
+          node-version: "12.x"
+          scope: "@intility"
+          registry-url: "https://artifactory.int.intility.no/artifactory/api/npm/npm-local/"
 
-      - run: ls
+          # Create .npmrc file with token from secret
+      #- uses: filipstefansson/set-npm-token-action@v1
+      # with:
+      # token: ${{ secrets.NPM_TOKEN }}
+
+      # Install, build and publish
+      - run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.PRIVATE_NPM_TOKEN }}
