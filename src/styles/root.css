@@ -2,15 +2,6 @@
     border-top: 1px solid rgba(10, 10, 10, 0.2);
 }
 
-.Twilio-MessageCanvasTray-default h6 {
-    font-size: 1.2rem;
-    margin: 0px;
-}
-
-.Twilio-MessageCanvasTray-default p {
-    font-size: 1rem;
-}
-
 .Twilio-MessageBubble-Body {
     font-size: 13px !important;
 }
@@ -19,3 +10,6 @@
     margin-left: 15px;
 }
 
+.Twilio-EntryPoint {
+    display: none;
+}
