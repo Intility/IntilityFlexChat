@@ -13,22 +13,21 @@ jobs:
   npm-publish:
     runs-on: ubuntu-latest
     steps:
-    
-    # Default git setup
-    - uses: actions/checkout@v2
-    
-    # Setup .npmrc file to publish to npm
-    - uses: actions/setup-node@v1
-      with:
-        node-version: '12.x'
-        registry-url: 'https://registry.npmjs.org'
-    
-    # Create .npmrc file with token from secret
-    - uses: filipstefansson/set-npm-token-action@v1
-      with:
-        token: ${{ secrets.NPM_TOKEN }}
-    
-    # Install, build and publish
-    - run: npm install
-    - run: npm run build
-    - run: npm publish
+      # Default git setup
+      - uses: actions/checkout@v2
+
+      # Setup .npmrc file to publish to npm
+      - uses: actions/setup-node@v1
+        with:
+          node-version: "12.x"
+          registry-url: "https://registry.npmjs.org"
+
+          # Create .npmrc file with token from secret
+      - uses: filipstefansson/set-npm-token-action@v1
+        with:
+          token: ${{ secrets.NPM_TOKEN }}
+
+      # Install, build and publish
+      - run: npm install
+      - run: npm run build
+      - run: npm publish

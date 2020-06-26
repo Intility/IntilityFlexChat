@@ -19,6 +19,7 @@ import { version } from '../../package.json';
 
 import '../styles/FlexChatError.css';
 import MessageBubbleHeader from './MessageBubbleHeader';
+import initActions from '../config/chat/customActions';
 
 const FlexChat: React.FC<FlexChatProps> = ({
     config,
@@ -103,7 +104,7 @@ To start the chat, please say **hi**`,
                         error: undefined,
                         manager,
                     });
-                    //initActions(manager);
+                    initActions(manager);
                 })
                 .catch((error) => {
                     setManagerState({
