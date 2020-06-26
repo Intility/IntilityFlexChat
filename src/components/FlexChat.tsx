@@ -12,9 +12,8 @@ import chatConfigBase from '../config/chat/chatAppConfig';
 import logo from '../assets/logo.png';
 import FlexChatLoading from './FlexChatLoading';
 import { ManagerState, FlexChatProps } from '../interfaces/FlexChat';
-import { faExclamationCircle } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Loader from '../assets/loader.svg';
+import ExclamationCircleSolid from '../assets/exclamation-circle-solid.svg';
 import { version } from '../../package.json';
 
 import '../styles/FlexChatError.css';
@@ -118,13 +117,13 @@ To start the chat, please say **hi**`,
 
     return (
         <>
-            {error && (
+            {true && (
                 <FlexChatLoading>
                     <p>Error Initializing Chat</p>
-                    <FontAwesomeIcon
-                        className={'flexChatError'}
-                        icon={faExclamationCircle}
-                        color="#D96E8B"
+                    <img
+                        style={{ height: '24px', width: '24px' }}
+                        src={ExclamationCircleSolid}
+                        alt="exclamation mark"
                     />
                 </FlexChatLoading>
             )}

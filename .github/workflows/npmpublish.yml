@@ -17,22 +17,6 @@ jobs:
       # Default git setup
       - uses: actions/checkout@v2
 
-      - run: npm install
-      - run: npm run build
-
-      - uses: actions/setup-node@v1
-        name: Setup private artifactory
-        with:
-          node-version: "12.x"
-          scope: "@intility"
-          registry-url: "https://artifactory.int.intility.no/artifactory/api/npm/npm-local/"
-
-      # Install, build and publish
-      - run: npm publish
-        name: Publish to private artifactory
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.PRIVATE_NPM_TOKEN }}
-
       - uses: actions/setup-node@v1
         name: Setup public artifactory
         with:
@@ -40,6 +24,8 @@ jobs:
           registry-url: "https://registry.npmjs.org"
 
       # Install, build and publish
+      - run: npm install
+      - run: npm run build
       - run: npm publish
         name: Publish to public artifactory
         env:
