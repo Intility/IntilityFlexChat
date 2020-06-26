@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - master
-      - qa
 
 defaults:
   run:
@@ -17,30 +16,18 @@ jobs:
       # Default git setup
       - uses: actions/checkout@v2
 
-      - run: npm install
-      - run: npm run build
-
+      # Setup .npmrc file to publish to npm
       - uses: actions/setup-node@v1
-        name: Setup private artifactory
-        with:
-          node-version: "12.x"
-          scope: "@intility"
-          registry-url: "https://artifactory.int.intility.no/artifactory/api/npm/npm-local/"
-
-      # Install, build and publish
-      - run: npm publish
-        name: Publish to private artifactory
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.PRIVATE_NPM_TOKEN }}
-
-      - uses: actions/setup-node@v1
-        name: Setup public artifactory
         with:
           node-version: "12.x"
           registry-url: "https://registry.npmjs.org"
 
+          # Create .npmrc file with token from secret
+      - uses: filipstefansson/set-npm-token-action@v1
+        with:
+          token: ${{ secrets.NPM_TOKEN }}
+
       # Install, build and publish
+      - run: npm install
+      - run: npm run build
       - run: npm publish
-        name: Publish to public artifactory
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
