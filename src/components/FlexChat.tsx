@@ -7,6 +7,7 @@ import {
     ContextProvider,
     RootContainer,
     MessageBubble,
+    Actions,
 } from '@twilio/flex-webchat-ui';
 import chatConfigBase from '../config/chat/chatAppConfig';
 import logo from '../assets/logo.png';
@@ -105,6 +106,10 @@ To start the chat, please say **hi**`,
                         manager,
                     });
                     initActions(manager);
+
+                    if (!manager.store.getState().flex.session.isEntryPointExpanded) {
+                        Actions.invokeAction('ToggleChatVisibility');
+                    }
                 })
                 .catch((error) => {
                     setManagerState({
