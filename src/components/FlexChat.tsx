@@ -7,7 +7,6 @@ import {
     ContextProvider,
     RootContainer,
     MessageBubble,
-    Actions,
 } from '@twilio/flex-webchat-ui';
 import chatConfigBase from '../config/chat/chatAppConfig';
 import logo from '../assets/logo.png';
@@ -21,6 +20,7 @@ import { version } from '../../package.json';
 import '../styles/FlexChatError.css';
 import MessageBubbleHeader from './MessageBubbleHeader';
 import initActions from '../config/chat/customActions';
+import useChatActions from '../useChatActions';
 
 const FlexChat: React.FC<FlexChatProps> = ({
     config,
@@ -35,8 +35,8 @@ const FlexChat: React.FC<FlexChatProps> = ({
     });
     const { manager, loading, error } = managerState;
     const { flexFlowSid, flexAccountSid, user } = config;
-
     const isNorwegian = user.preferredLanguage?.includes('-NO');
+    const { toggleChatVisibility } = useChatActions();
 
     useEffect(() => {
         if (!flexFlowSid) {
@@ -108,7 +108,7 @@ To start the chat, please say **hi**`,
                     initActions(manager);
 
                     if (!manager.store.getState().flex.session.isEntryPointExpanded) {
-                        Actions.invokeAction('ToggleChatVisibility');
+                        toggleChatVisibility();
                     }
                 })
                 .catch((error) => {
