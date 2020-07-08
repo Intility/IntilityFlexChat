@@ -1,0 +1,21 @@
+.notificationIcon {
+    min-width: 24px;
+    height: 16px;
+    color: #FFF;
+}
+
+.notificationsRequestText {
+    color: #FFF;
+    display: inline;
+}
+
+.clickable {
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.notificationsRequestDiv {
+    margin-left: auto;
+    margin-top: auto;
+    margin-bottom: auto;
+}

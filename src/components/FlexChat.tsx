@@ -18,9 +18,11 @@ import Loader from '../assets/loader.svg';
 import { version } from '../../package.json';
 
 import '../styles/FlexChatError.css';
+import '../styles/header.css';
 import MessageBubbleHeader from './MessageBubbleHeader';
 import initActions from '../config/chat/customActions';
 import useChatActions from '../useChatActions';
+import NotificationButton from './NotificationButton';
 
 const FlexChat: React.FC<FlexChatProps> = ({
     config,
@@ -66,6 +68,12 @@ const FlexChat: React.FC<FlexChatProps> = ({
             EntryPoint.defaultProps.tagline = isNorwegian ? 'Snakk med oss' : 'Chat with us';
             MainHeader.defaultProps.imageUrl = logo;
             MainHeader.defaultProps.titleText = 'Support';
+
+            if ('Notification' in window) {
+                MainHeader.Content.add(
+                    <NotificationButton isNorwegian={isNorwegian} key="notificationButton" />,
+                );
+            }
 
             MessageBubble.Content.remove('header');
             MessageBubble.Content.add(<MessageBubbleHeader key="newHeader" />, { sortOrder: 0 });
