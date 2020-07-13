@@ -69,7 +69,7 @@ const FlexChat: React.FC<FlexChatProps> = ({
             MainHeader.defaultProps.imageUrl = logo;
             MainHeader.defaultProps.titleText = 'Support';
 
-            if ('Notification' in window) {
+            if ('Notification' in window && navigator.permissions) {
                 MainHeader.Content.add(
                     <NotificationButton isNorwegian={isNorwegian} key="notificationButton" />,
                 );
