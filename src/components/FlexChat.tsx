@@ -23,6 +23,7 @@ import MessageBubbleHeader from './MessageBubbleHeader';
 import initActions from '../config/chat/customActions';
 import useChatActions from '../useChatActions';
 import NotificationButton from './NotificationButton';
+import { EventEmitter } from 'events';
 
 const defaultManagerState = {
     loading: false,

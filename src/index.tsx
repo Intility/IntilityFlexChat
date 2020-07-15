@@ -6,7 +6,6 @@ import ReactDOM from 'react-dom';
 import FlexChat from './components/FlexChat';
 import { ConfigProps } from './interfaces/FlexChat';
 import useChatActions from './useChatActions';
-import { EventEmitter } from 'events';
 
 export * from './interfaces/FlexChat';
 export { default as FlexChat } from './components/FlexChat';
@@ -21,6 +20,7 @@ const App: React.FC = () => {
         setInputFieldContent,
         setAndSendInputFieldContent,
         toggleChatVisibility,
+        hasUserReadLastMessage,
     } = useChatActions();
 
     const config: ConfigProps = {
@@ -28,9 +28,10 @@ const App: React.FC = () => {
         flexFlowSid: process.env.REACT_APP_FLOW_SID,
         theme: {
             MainContainer: {
-                width: '60vw',
+                width: '50vw',
                 height: '92vh',
                 maxHeight: '100vh',
+                minWidth: '350px',
                 bottom: '10px',
                 right: '10px',
             },
@@ -52,14 +53,11 @@ const App: React.FC = () => {
 
     return (
         <>
-            <button onClick={flipDarkMode}>
-                The Dark Side of the Chat is a pathway to many abilities some consider to be
-                unnatural.
-            </button>
-            <button onClick={toggleChatVisibility}>toggleChatVisibility</button>
-            <button onClick={() => setInputFieldContent('Hello')}>setInputFieldContent</button>
+            <button onClick={flipDarkMode}>Toggle Darkmode</button>
+            <button onClick={toggleChatVisibility}>Toggle Chat</button>
+            <button onClick={() => setInputFieldContent('Hello')}>SetInputFieldContent</button>
             <button onClick={() => setAndSendInputFieldContent('Hello1234')}>
-                setAndSendInputFieldContent
+                SetAndSendInputFieldContent
             </button>
             <FlexChat config={config} isDarkMode={isDarkMode} isDisabled={false} />
         </>
