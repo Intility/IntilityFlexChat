@@ -12,7 +12,13 @@ export type FlexChatProps = {
 export type ConfigProps = {
     flexFlowSid?: string;
     flexAccountSid?: string;
+    theme?: ThemeConfig;
     user: ChatContext;
+};
+
+export type ThemeConfig = {
+    MainContainer?: React.CSSProperties;
+    EntryPoint?: React.CSSProperties;
 };
 
 export type ChatContext = {

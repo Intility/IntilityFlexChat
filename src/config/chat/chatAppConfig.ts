@@ -9,7 +9,7 @@ const config = (config: ConfigProps, isDarkMode: boolean, isDisabled = false): C
     accountSid: config.flexAccountSid,
     flexFlowSid: config.flexFlowSid,
     colorTheme: {
-        overrides: generateTheme(isDarkMode),
+        overrides: generateTheme(isDarkMode, config.theme),
     },
     context: {
         locationOrigin: window.location.origin,

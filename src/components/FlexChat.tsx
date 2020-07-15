@@ -21,17 +21,19 @@ import '../styles/FlexChatError.css';
 import MessageBubbleHeader from './MessageBubbleHeader';
 import initActions from '../config/chat/customActions';
 
+const defaultManagerState = {
+    loading: false,
+    manager: undefined,
+    error: undefined,
+};
+
 const FlexChat: React.FC<FlexChatProps> = ({
     config,
     isDarkMode,
     loadingCompoment,
     isDisabled = false,
 }) => {
-    const [managerState, setManagerState] = useState<ManagerState>({
-        loading: false,
-        manager: undefined,
-        error: undefined,
-    });
+    const [managerState, setManagerState] = useState<ManagerState>(defaultManagerState);
     const { manager, loading, error } = managerState;
     const { flexFlowSid, flexAccountSid, user } = config;
 
@@ -53,9 +55,8 @@ const FlexChat: React.FC<FlexChatProps> = ({
             }
 
             setManagerState({
+                ...defaultManagerState,
                 loading: true,
-                manager: undefined,
-                error: undefined,
             });
 
             console.info(`Intility FlexChat: Initializing Intility Chat - v${version}`);
@@ -65,6 +66,10 @@ const FlexChat: React.FC<FlexChatProps> = ({
             EntryPoint.defaultProps.tagline = isNorwegian ? 'Snakk med oss' : 'Chat with us';
             MainHeader.defaultProps.imageUrl = logo;
             MainHeader.defaultProps.titleText = 'Support';
+
+            if (config.theme?.EntryPoint?.display?.includes('none')) {
+                MainHeader.Content.remove('close-button');
+            }
 
             MessageBubble.Content.remove('header');
             MessageBubble.Content.add(<MessageBubbleHeader key="newHeader" />, { sortOrder: 0 });
@@ -100,16 +105,14 @@ To start the chat, please say **hi**`,
                     console.info(`Intility FlexChat: Chat Manager successfully initialized.`);
 
                     setManagerState({
-                        loading: false,
-                        error: undefined,
+                        ...defaultManagerState,
                         manager,
                     });
                     initActions(manager);
                 })
                 .catch((error) => {
                     setManagerState({
-                        loading: false,
-                        manager: undefined,
+                        ...defaultManagerState,
                         error: error.message,
                     });
                     console.error(`Intility FlexChat: Flex chat error: ${error.message}`);

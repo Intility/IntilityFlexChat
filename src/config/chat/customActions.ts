@@ -16,6 +16,10 @@ const initActions = (manager: Manager) => {
             await Actions.invokeAction('SendMessage', { channelSid, body });
         }
     });
+
+    Actions.addListener('NotificationManager#notificationAdded', (e) => {
+        console.log('Notification added -> ', e);
+    });
 };
 
 export default initActions;
