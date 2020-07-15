@@ -18,8 +18,11 @@ import Loader from '../assets/loader.svg';
 import { version } from '../../package.json';
 
 import '../styles/FlexChatError.css';
+import '../styles/header.css';
 import MessageBubbleHeader from './MessageBubbleHeader';
 import initActions from '../config/chat/customActions';
+import useChatActions from '../useChatActions';
+import NotificationButton from './NotificationButton';
 
 const defaultManagerState = {
     loading: false,
@@ -36,8 +39,8 @@ const FlexChat: React.FC<FlexChatProps> = ({
     const [managerState, setManagerState] = useState<ManagerState>(defaultManagerState);
     const { manager, loading, error } = managerState;
     const { flexFlowSid, flexAccountSid, user } = config;
-
     const isNorwegian = user.preferredLanguage?.includes('-NO');
+    const { toggleChatVisibility } = useChatActions();
 
     useEffect(() => {
         if (!flexFlowSid) {
@@ -69,6 +72,12 @@ const FlexChat: React.FC<FlexChatProps> = ({
 
             if (config.theme?.EntryPoint?.display?.includes('none')) {
                 MainHeader.Content.remove('close-button');
+            }
+
+            if ('Notification' in window && navigator.permissions) {
+                MainHeader.Content.add(
+                    <NotificationButton isNorwegian={isNorwegian} key="notificationButton" />,
+                );
             }
 
             MessageBubble.Content.remove('header');
@@ -109,6 +118,10 @@ To start the chat, please say **hi**`,
                         manager,
                     });
                     initActions(manager);
+
+                    if (!manager.store.getState().flex.session.isEntryPointExpanded) {
+                        toggleChatVisibility();
+                    }
                 })
                 .catch((error) => {
                     setManagerState({
