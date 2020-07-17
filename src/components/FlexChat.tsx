@@ -148,13 +148,11 @@ To start the chat, please say **hi**`,
             {loading && (
                 <FlexChatLoading>
                     {isNorwegian ? <p>Laster inn Chat</p> : <p>Loading Chat</p>}
-                    {loadingCompoment || (
-                        <img
-                            style={{ height: '24px', width: '24px' }}
-                            src={Loader}
-                            alt="Loading spinner"
-                        />
-                    )}
+                    <img
+                        style={{ height: '24px', width: '24px' }}
+                        src={Loader}
+                        alt="Loading spinner"
+                    />
                 </FlexChatLoading>
             )}
             {manager && (
