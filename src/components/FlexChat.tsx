@@ -7,6 +7,7 @@ import {
     ContextProvider,
     RootContainer,
     MessageBubble,
+    MainContainer,
 } from '@twilio/flex-webchat-ui';
 import chatConfigBase from '../config/chat/chatAppConfig';
 import logo from '../assets/logo.png';

@@ -1,4 +1,4 @@
-import { Manager } from '@twilio/flex-webchat-ui';
+import { Manager, CSSProps } from '@twilio/flex-webchat-ui';
 import { ReactNode } from 'react';
 
 export type FlexChatProps = {
@@ -12,13 +12,14 @@ export type FlexChatProps = {
 export type ConfigProps = {
     flexFlowSid?: string;
     flexAccountSid?: string;
+    loglevel?: 'debug' | 'superDebug';
     theme?: ThemeConfig;
     user: ChatContext;
 };
 
 export type ThemeConfig = {
-    MainContainer?: React.CSSProperties;
-    EntryPoint?: React.CSSProperties;
+    MainContainer?: CSSProps;
+    EntryPoint?: CSSProps;
 };
 
 export type ChatContext = {
