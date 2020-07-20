@@ -9,7 +9,7 @@ const config = (config: ConfigProps, isDarkMode: boolean, isDisabled = false): C
     accountSid: config.flexAccountSid,
     flexFlowSid: config.flexFlowSid,
     colorTheme: {
-        overrides: generateTheme(isDarkMode),
+        overrides: generateTheme(isDarkMode, config.theme),
     },
     context: {
         locationOrigin: window.location.origin,
@@ -19,11 +19,18 @@ const config = (config: ConfigProps, isDarkMode: boolean, isDisabled = false): C
     markdownSupport: {
         enabled: true,
     },
+    logLevel: config.loglevel ? 'debug' : undefined,
+    //logLevel: 'debug',
     startEngagementOnInit: true,
     fileAttachment: {
         enabled: true,
         maxFileSize: 10 * 1024 * 1024, //10MB
         acceptedExtensions: ['png', 'gif', 'jpg', 'jpeg', 'pdf'],
+    },
+    sdkOptions: {
+        chat: {
+            logLevel: config.loglevel === 'superDebug' ? 'debug' : undefined,
+        },
     },
 });
 

@@ -56,10 +56,8 @@ REACT_APP_FLOW_SID=xxxxx
 
 ```ts
 type FlexChatProps = {
-    children?: ReactNode;
     config: ConfigProps;
     isDarkMode: boolean;
-    loadingCompoment?: ReactNode;
     isDisabled?: boolean;
 };
 ```
@@ -83,14 +81,6 @@ type UserConfigProps = {
     [key: string]: AllowedValues;
 };
 ```
-
-### Optional Configuration
-
-#### Loading Spinner
-
-An custom Loading spinner can be provided by using the `loadingCompoment` prop on FlexChat.
-
-If this value is not provided, a default loading spinner is displayed.
 
 ### Example configuration
 

@@ -1,5 +1,6 @@
-import { theme, fontSize } from '../theme/theme';
+import { theme } from '../theme/theme';
 import { DeepPartial, Theme } from '@twilio/flex-webchat-ui';
+import { ThemeConfig } from '../../interfaces/FlexChat';
 
 const primaryColors = {
     background: theme.primaryColor,
@@ -11,9 +12,14 @@ const primaryColorsHover = {
     color: theme.textLight,
 };
 
-export const generateTheme = (isDarkMode: boolean): DeepPartial<Theme> => ({
+export const generateTheme = (
+    isDarkMode: boolean,
+    themeConfig: ThemeConfig = {},
+): DeepPartial<Theme> => ({
     MainContainer: {
-        width: '500px',
+        ...themeConfig.MainContainer,
+        width: themeConfig.MainContainer?.width || '500px',
+        height: themeConfig.MainContainer?.height,
     },
     Chat: {
         MessagingCanvas: {
@@ -114,6 +120,7 @@ export const generateTheme = (isDarkMode: boolean): DeepPartial<Theme> => ({
 
     EntryPoint: {
         Container: {
+            ...themeConfig.EntryPoint,
             ...primaryColors,
             boxShadow: 'none',
             '&:hover': {
