@@ -10,6 +10,6 @@
     margin-left: 15px;
 }
 
-.Twilio-EntryPoint {
-    display: none;
+.Twilio-MessagingCanvas {
+    max-width: 100% !important;
 }
