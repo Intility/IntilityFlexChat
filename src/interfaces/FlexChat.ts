@@ -5,7 +5,6 @@ export type FlexChatProps = {
     children?: ReactNode;
     config: ConfigProps;
     isDarkMode: boolean;
-    loadingCompoment?: ReactNode;
     isDisabled?: boolean;
 };
 

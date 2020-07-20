@@ -7,12 +7,14 @@ const useChatActions = () => {
         Flex.Actions.invokeAction('customSendMessage', { body });
     const toggleChatVisibility = () => Flex.Actions.invokeAction('ToggleChatVisibility');
     const hasUserReadLastMessage = () => Flex.Actions.invokeAction('hasUserReadLastMessage');
+    const isChatOpen = () => Flex.Actions.invokeAction('isChatOpen');
 
     return {
         setInputFieldContent,
         setAndSendInputFieldContent,
         toggleChatVisibility,
         hasUserReadLastMessage,
+        isChatOpen,
     };
 };
 

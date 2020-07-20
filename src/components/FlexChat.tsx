@@ -30,12 +30,7 @@ const defaultManagerState = {
     error: undefined,
 };
 
-const FlexChat: React.FC<FlexChatProps> = ({
-    config,
-    isDarkMode,
-    loadingCompoment,
-    isDisabled = false,
-}) => {
+const FlexChat: React.FC<FlexChatProps> = ({ config, isDarkMode, isDisabled = false }) => {
     const [managerState, setManagerState] = useState<ManagerState>(defaultManagerState);
     const { manager, loading, error } = managerState;
     const { flexFlowSid, flexAccountSid, user } = config;
@@ -52,6 +47,7 @@ const FlexChat: React.FC<FlexChatProps> = ({
 
     useEffect(() => {
         if (flexFlowSid && flexAccountSid && user) {
+            // If if Twilio Chat Manager is initialized update config
             if (manager) {
                 manager.updateConfig(chatConfigBase(config, isDarkMode, isDisabled));
                 return;
@@ -64,25 +60,30 @@ const FlexChat: React.FC<FlexChatProps> = ({
 
             console.info(`Intility FlexChat: Initializing Intility Chat - v${version}`);
 
+            // Build chat config
             const chatConfig = chatConfigBase(config, isDarkMode, isDisabled);
 
             EntryPoint.defaultProps.tagline = isNorwegian ? 'Snakk med oss' : 'Chat with us';
             MainHeader.defaultProps.imageUrl = logo;
             MainHeader.defaultProps.titleText = 'Support';
 
+            // If Entrypoint button is hidden, the Cloe button in the chat header should be hidden as well
             if (config.theme?.EntryPoint?.display?.includes('none')) {
                 MainHeader.Content.remove('close-button');
             }
 
+            // If In-Browser notifications is supported. Add the custom Notification button to the chat header
             if ('Notification' in window && navigator.permissions) {
                 MainHeader.Content.add(
                     <NotificationButton isNorwegian={isNorwegian} key="notificationButton" />,
                 );
             }
 
+            // Since the messages in the chat header is a bit difficult with formatting of timestamps, we are enforcing 24h clock in chat message
             MessageBubble.Content.remove('header');
             MessageBubble.Content.add(<MessageBubbleHeader key="newHeader" />, { sortOrder: 0 });
 
+            // Customize the content of the forst welcome message sent in the chat
             MessagingCanvas.defaultProps.predefinedMessage = {
                 body: isNorwegian
                     ? `Velkommen til Intility Chat. 
@@ -93,8 +94,10 @@ To start the chat, please say **hi**`,
                 isFromMe: false,
             };
 
+            // Start init of the Twilio Chat Manager with cusom chatConfig
             Manager.create(chatConfig)
                 .then((manager) => {
+                    // Translate default string values.
                     if (isNorwegian) {
                         manager.strings = {
                             ...manager.strings,
@@ -111,24 +114,28 @@ To start the chat, please say **hi**`,
                             Read: `Lest`,
                         };
                     }
-                    console.info(`Intility FlexChat: Chat Manager successfully initialized.`);
 
                     setManagerState({
                         ...defaultManagerState,
                         manager,
                     });
+
+                    // Initialize the custom actions
                     initActions(manager);
 
+                    // Allways open the chat on init
                     if (!manager.store.getState().flex.session.isEntryPointExpanded) {
                         toggleChatVisibility();
                     }
+
+                    console.info(`Intility FlexChat: Chat Manager successfully initialized.`);
                 })
                 .catch((error) => {
                     setManagerState({
                         ...defaultManagerState,
                         error: error.message,
                     });
-                    console.error(`Intility FlexChat: Flex chat error: ${error.message}`);
+                    console.error(`Intility FlexChat: Flex chat error`, error);
                 });
         }
     }, [config, flexAccountSid, flexFlowSid, isDarkMode, manager, user]);
@@ -139,7 +146,7 @@ To start the chat, please say **hi**`,
                 <FlexChatLoading>
                     <p>Error Initializing Chat</p>
                     <FontAwesomeIcon
-                        className={'flexChatError'}
+                        className="flexChatError"
                         icon={faExclamationCircle}
                         color="#D96E8B"
                     />

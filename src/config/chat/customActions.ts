@@ -17,6 +17,10 @@ const initActions = (manager: Manager) => {
         }
     });
 
+    Actions.registerAction('isChatOpen', async () => {
+        return manager.store.getState().flex.session.isEntryPointExpanded;
+    });
+
     Actions.registerAction('hasUserReadLastMessage', async () => {
         const channelSid = Object.keys(manager.store.getState().flex.chat.channels)[0];
         const channel = manager.store.getState().flex.chat.channels[channelSid];
@@ -26,10 +30,6 @@ const initActions = (manager: Manager) => {
             const lastReadMessageIndex = channel.lastConsumedMessageByCurrentUserIndex;
             return lastReadMessageIndex === lastRecievedMessageIndex;
         }
-    });
-
-    Actions.addListener('NotificationManager#notificationAdded', (e) => {
-        console.log('Notification added -> ', e);
     });
 };
 
