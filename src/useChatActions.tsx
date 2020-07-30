@@ -1,6 +1,14 @@
 import * as Flex from '@twilio/flex-webchat-ui';
 
-const useChatActions = () => {
+export type UseChatActionsFuncs = {
+    setInputFieldContent: (body: string) => Promise<unknown>;
+    setAndSendInputFieldContent: (body: string) => Promise<unknown>;
+    toggleChatVisibility: () => Promise<unknown>;
+    hasUserReadLastMessage: () => Promise<boolean>;
+    isChatOpen: () => Promise<boolean>;
+};
+
+const useChatActions = (): UseChatActionsFuncs => {
     const setInputFieldContent = (body: string) =>
         Flex.Actions.invokeAction('customSetInputText', { body });
     const setAndSendInputFieldContent = (body: string) =>
