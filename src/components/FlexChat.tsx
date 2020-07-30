@@ -87,9 +87,11 @@ const FlexChat: React.FC<FlexChatProps> = ({ config, isDarkMode, isDisabled = fa
             MessagingCanvas.defaultProps.predefinedMessage = {
                 body: isNorwegian
                     ? `Velkommen til Intility Chat. 
-For å starte chaten, vennligst skriv **hei**.`
+For å starte chaten, vennligst skriv **hei**.
+Vennligst ikke skriv inn problembeskrivelsen enda.`
                     : `Welcome to Intility Chat. 
-To start the chat, please say **hi**`,
+To start the chat, please say **hi**.
+Please do not enter the problem description yet.`,
                 authorName: 'Intility Support',
                 isFromMe: false,
             };
