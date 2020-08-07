@@ -1,9 +1,10 @@
 {
     "name": "@intility/flex-chat",
     "description": "Wrapped component with basic setup and theming based on Twilios WebChat Component",
-    "version": "1.2.1",
-    "main": "./dist/index.js",
-    "types": "./dist/index.d.ts",
+    "version": "1.2.2",
+    "main": "dist/index.js",
+    "module": "es/index.js",
+    "types": "types/src/index.d.ts",
     "author": {
         "name": "Christian Marker / Intility AS",
         "email": "christian.marker@intility.no"
@@ -21,11 +22,13 @@
     },
     "scripts": {
         "start": "react-scripts start",
-        "build": "run-s lint clean:build build:compile build:types",
+        "build": "run-s lint clean:build clean:build build:cjs build:es build:types",
         "build:watch": "babel src --out-dir dist --extensions \".ts,.tsx\" --watch --copy-files",
         "build:compile": "babel src --out-dir dist --extensions \".ts,.tsx\" --copy-files",
         "build:types": "tsc --project tsconfig.types.json",
-        "clean:build": "rimraf dist",
+        "build:cjs": "babel src --out-dir dist --extensions \".ts,.tsx\" --copy-files",
+        "build:es": "babel src --out-dir es --extensions \".ts,.tsx\" --copy-files --env-name es",
+        "clean:build": "rimraf dist es types",
         "lint": "tsc && eslint src/**/*.ts[x]",
         "lint:fix": "eslint src/**/*.ts[x] --fix",
         "test": "react-scripts test",

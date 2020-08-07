@@ -2,8 +2,6 @@ import { generateTheme } from './chatTheme';
 import { Config } from '@twilio/flex-webchat-ui/src/state/AppConfig';
 import { ConfigProps } from '../../interfaces/FlexChat';
 
-//import preEngagementConfig from './preEngagementForm';
-
 const config = (config: ConfigProps, isDarkMode: boolean, isDisabled = false): Config => ({
     available: !isDisabled,
     accountSid: config.flexAccountSid,
@@ -21,12 +19,13 @@ const config = (config: ConfigProps, isDarkMode: boolean, isDisabled = false): C
     },
     logLevel: config.loglevel ? 'debug' : undefined,
     //logLevel: 'debug',
-    startEngagementOnInit: true,
+    startEngagementOnInit: config.preEngagementForm === undefined,
     fileAttachment: {
         enabled: true,
         maxFileSize: 10 * 1024 * 1024, //10MB
         acceptedExtensions: ['png', 'gif', 'jpg', 'jpeg', 'pdf'],
     },
+    preEngagementConfig: config.preEngagementForm || undefined,
     sdkOptions: {
         chat: {
             logLevel: config.loglevel === 'superDebug' ? 'debug' : undefined,
