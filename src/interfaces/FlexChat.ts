@@ -1,4 +1,4 @@
-import { Manager, CSSProps } from '@twilio/flex-webchat-ui';
+import { Manager, CSSProps, FormAttributes } from '@twilio/flex-webchat-ui';
 import { ReactNode } from 'react';
 
 export type FlexChatProps = {
@@ -13,6 +13,7 @@ export type ConfigProps = {
     flexAccountSid?: string;
     loglevel?: 'debug' | 'superDebug';
     theme?: ThemeConfig;
+    preEngagementForm?: FormAttributes;
     user: ChatContext;
 };
 

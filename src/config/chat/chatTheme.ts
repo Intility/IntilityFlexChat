@@ -129,6 +129,33 @@ export const generateTheme = (
             },
         },
     },
+    FormComponents: {
+        TextArea: {
+            maxWidth: '80%',
+            marginLeft: '2px',
+            '& div textarea': {
+                borderRadius: '4px',
+            },
+            '& div textarea:focus': {},
+        },
+    },
+    PreEngagementCanvas: {
+        Container: {
+            left: '0px',
+        },
+        Footer: {
+            backgroundColor: 'blue',
+        },
+        Form: {
+            Label: {
+                fontWeight: 600,
+            },
+            SubmitButton: {
+                ...primaryColors,
+                borderRadius: '4px',
+            },
+        },
+    },
     PendingEngagementCanvas: {
         Container: {
             backgroundColor: isDarkMode ? theme.darkGreyBackground : theme.lightBackground,
