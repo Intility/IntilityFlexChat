@@ -7,6 +7,7 @@ import {
     ContextProvider,
     RootContainer,
     MessageBubble,
+    Actions,
 } from '@twilio/flex-webchat-ui';
 import chatConfigBase from '../config/chat/chatAppConfig';
 import logo from '../assets/logo.png';
@@ -33,7 +34,7 @@ const defaultManagerState = {
 const FlexChat: React.FC<FlexChatProps> = ({ config, isDarkMode, isDisabled = false }) => {
     const [managerState, setManagerState] = useState<ManagerState>(defaultManagerState);
     const { manager, loading, error } = managerState;
-    const { flexFlowSid, flexAccountSid, user } = config;
+    const { flexFlowSid, flexAccountSid, user, preEngagementForm } = config;
     const isNorwegian = user.preferredLanguage?.includes('-NO');
     const { toggleChatVisibility } = useChatActions();
 
@@ -83,15 +84,13 @@ const FlexChat: React.FC<FlexChatProps> = ({ config, isDarkMode, isDisabled = fa
             MessageBubble.Content.remove('header');
             MessageBubble.Content.add(<MessageBubbleHeader key="newHeader" />, { sortOrder: 0 });
 
-            // Customize the content of the forst welcome message sent in the chat
+            // Customize the content of the first welcome message sent in the chat
             MessagingCanvas.defaultProps.predefinedMessage = {
                 body: isNorwegian
                     ? `Velkommen til Intility Chat. 
-For å starte chaten, vennligst skriv **hei**.
-Vennligst ikke skriv inn problembeskrivelsen enda.`
+For at vi raskest mulig skal kunne hjelpe deg, vennligst beskriv problemet i **èn** melding.`
                     : `Welcome to Intility Chat. 
-To start the chat, please say **hi**.
-Please do not enter the problem description yet.`,
+In order for us to be able to help you as quickly as possible, please describe the problem in **one** message.`,
                 authorName: 'Intility Support',
                 isFromMe: false,
             };
@@ -121,6 +120,19 @@ Please do not enter the problem description yet.`,
                         ...defaultManagerState,
                         manager,
                     });
+
+                    // If preEngagementConfig then send as first message
+                    if (chatConfig.preEngagementConfig) {
+                        Actions.on('afterStartEngagement', (payload) => {
+                            const { question } = payload.formData;
+                            if (!question) return;
+
+                            const { channelSid } = manager.store.getState().flex.session;
+                            manager.chatClient
+                                .getChannelBySid(channelSid)
+                                .then((channel) => channel.sendMessage(question));
+                        });
+                    }
 
                     // Initialize the custom actions
                     initActions(manager);
