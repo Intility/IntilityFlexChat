@@ -131,20 +131,30 @@ export const generateTheme = (
     },
     FormComponents: {
         TextArea: {
-            maxWidth: '80%',
-            marginLeft: '2px',
             '& div textarea': {
                 borderRadius: '4px',
             },
-            '& div textarea:focus': {},
         },
     },
     PreEngagementCanvas: {
         Container: {
-            left: '0px',
-        },
-        Footer: {
-            backgroundColor: 'blue',
+            maxWidth: '80%',
+            display: 'flex',
+            justifyContent: 'center',
+            '& div': {
+                flexGrow: 0,
+            },
+            '& div form div:first-child': {
+                fontSize: '18px',
+            },
+            '& .message': {
+                fontSize: '14px',
+                lineHeight: '1.5rem',
+            },
+            '& div form': {
+                maxWidth: '100% !important',
+                padding: '0 2px 0 2px',
+            },
         },
         Form: {
             Label: {
