@@ -208,27 +208,30 @@ export const generateTheme = (
             paddingRight: '10%',
             display: 'flex',
             justifyContent: 'center',
-            '@media only screen and (max-width: 767px)': {
-                paddingLeft: '10px',
-                paddingRight: '10px',
-            },
             '& *': {
                 ...fontFamily,
                 background: isDarkMode ? theme.darkGreyBackground : theme.lightBackground,
             },
-            '& div': {
-                flexGrow: 0,
-            },
-            '& div form div:first-child': {
-                fontSize: '19px',
-            },
-            '& .message': {
-                fontSize: '14px',
-                lineHeight: '1.5rem',
-            },
             '& div form': {
                 maxWidth: '100% !important',
                 padding: '0 2px 0 2px',
+            },
+            '@media only screen and (max-width: 767px)': {
+                paddingLeft: '10px',
+                paddingRight: '10px',
+            },
+            // Make form fit content
+            '& div': {
+                flexGrow: 0,
+            },
+            // Style Form description
+            '& div form div:first-child': {
+                fontSize: '19px',
+            },
+            // Style form message
+            '& .message': {
+                fontSize: '14px',
+                lineHeight: '1.5rem',
             },
         },
         Form: {
@@ -241,7 +244,6 @@ export const generateTheme = (
                 ...primaryColorsOutlined,
                 ...fontFamily,
                 marginTop: '8px',
-                position: 'relative',
             },
         },
     },

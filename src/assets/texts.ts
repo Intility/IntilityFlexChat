@@ -1,3 +1,5 @@
+import { Strings } from '@twilio/flex-webchat-ui';
+
 interface MultiLangText {
     en: string;
     no: string;
@@ -18,7 +20,7 @@ In order for us to be able to help you as quickly as possible, please describe t
 For at vi raskest mulig skal kunne hjelpe deg, vennligst beskriv problemet i **èn** melding.`,
 };
 
-const norwegianUiTranslation: Record<string, string> = {
+const norwegianUiTranslation: Strings = {
     MessageCanvasTrayContent: `
 <h6>Takk for at du snakket med oss!</h6>
 <p>Hvis du har noen flere spørsmål. Vennligst ta kontakt med oss igjen.</p>`,
@@ -30,6 +32,13 @@ const norwegianUiTranslation: Record<string, string> = {
     SendMessageTooltip: `Send melding`,
     AttachFileImageTooltip: `Legg til fil`,
     Read: `Lest`,
+    FieldValidationRequiredField: `Ugyldig innhold`,
+    Save: 'Lagre',
+    AttachFileInvalidSize: 'Filen er for stor. Maks størrelse: 10MB',
+    AttachFileInvalidType: `Ugyldig filtype`,
+    Connecting: 'Kobler til',
+    Disconnected: 'Kobler fra',
+    TypingIndicator: '{{name}} skriver...',
 };
 
 const notificationBlocked: MultiLangText = {
