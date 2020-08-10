@@ -41,6 +41,7 @@ npm i @intility/flex-chat
 <script src="https://unpkg.com/@intility/flex-chat@1/dist/index.js"></script>
 ```
 
+
 ### Required Configuration
 
 #### Environment variables
@@ -55,6 +56,15 @@ REACT_APP_FLOW_SID=xxxxx
 #### Properties
 
 ```ts
+type ConfigProps = {
+    flexFlowSid?: string;
+    flexAccountSid?: string;
+    loglevel?: 'debug' | 'superDebug';
+    theme?: ThemeConfig;
+    preEngagementForm?: FormAttributes;
+    user: ChatContext;
+};
+
 type FlexChatProps = {
     config: ConfigProps;
     isDarkMode: boolean;
@@ -82,7 +92,65 @@ type UserConfigProps = {
 };
 ```
 
-### Example configuration
+### Optional Configuration
+
+#### PreEngagementForm
+
+If you want to add a form for the client to fill before a chat is started you can add a preEngagementForm property to the config object.
+This property follows the `FormAttributes` type defined in the [Twilio Docs](https://www.twilio.com/docs/flex/webchat/pre-engagement-and-context).
+
+**NOTE:** When the client submits the form the form field named **question** will be sent as the initialization message to start the chat session.
+
+
+```ts
+const config: ConfigProps = {
+    // ...required config
+    preEngagementForm: {
+        description: 'Velkommen til Intility Chat',
+        message: 'lorem ipsum dolor sit amet...',
+        submitLabel: 'Submit',
+        fields: [
+            {
+                label: 'How many Vogons does it take to change a lightbulb?',
+                type: 'TextareaItem',
+                attributes: {
+                    name: 'question',
+                    type: 'text',
+                    placeholder: 'Type your question here',
+                    required: true,
+                    rows: 5,
+                },
+            },
+        ],
+    },
+};
+```
+
+#### Theming
+
+You can change properties on the `MainContainer` and `EntryPoint` components to make them fit your experience, e.g. hide the `EntryPoint` button or change the height, width or render properties like position.
+
+**NOTE:** some properties will be default from Twilio or overwritten by Intility's setup of the chat component.
+
+```ts
+const config: ConfigProps = {
+    // ...required config
+    theme: {
+        MainContainer: {
+            width: '800px',
+            height: '87vh',
+            '@media only screen and (min-width: 1415px)': {
+                width: `1080px`,
+            },
+            EntryPoint: {
+                display: 'none !important',
+            },
+        },
+    },
+};
+```
+
+### Example Configuration
 
 ```ts
 import React, { useState } from 'react';
@@ -95,6 +163,24 @@ const App: React.FC = (props) => {
     const config: ConfigProps = {
         flexAccountSid: process.env.REACT_APP_ACCOUNT_SID,
         flexFlowSid: process.env.REACT_APP_FLOW_SID,
+        preEngagementForm: {
+            description: 'Velkommen til Intility Chat',
+            message: 'lorem ipsum dolor sit amet...',
+            submitLabel: 'Submit',
+            fields: [
+                {
+                    label: 'How many Vogons does it take to change a lightbulb?',
+                    type: 'TextareaItem',
+                    attributes: {
+                        name: 'question',
+                        type: 'text',
+                        placeholder: 'Type your question here',
+                        required: true,
+                        rows: 5,
+                    },
+                },
+            ],
+        },
         user: {
             userPrincipalName: 'ola.normann@intility.no',
             mail: 'ola.normann@intility.no',
@@ -104,18 +190,18 @@ const App: React.FC = (props) => {
     };
 
     return (
-        <div>
-            <FlexChat
-                config={config}
-                isDarkMode={isDarkMode}
-                isDisabled={false}
-            />
-        <div/>
+        <FlexChat config={config} isDarkMode={isDarkMode} isDisabled={false} /> 
     );
 };
 
 ReactDOM.render(<App />, document.getElementById('root'));
 ```
+
+## Usage
+
+### Hooks
+
+This component
 
 ## Illustration
 

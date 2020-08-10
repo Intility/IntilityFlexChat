@@ -7,6 +7,7 @@ import {
     ContextProvider,
     RootContainer,
     MessageBubble,
+    Actions,
 } from '@twilio/flex-webchat-ui';
 import chatConfigBase from '../config/chat/chatAppConfig';
 import logo from '../assets/logo.png';
@@ -23,6 +24,7 @@ import MessageBubbleHeader from './MessageBubbleHeader';
 import initActions from '../config/chat/customActions';
 import useChatActions from '../useChatActions';
 import NotificationButton from './NotificationButton';
+import Texts, { translateText } from '../assets/texts';
 
 const defaultManagerState = {
     loading: false,
@@ -47,7 +49,7 @@ const FlexChat: React.FC<FlexChatProps> = ({ config, isDarkMode, isDisabled = fa
 
     useEffect(() => {
         if (flexFlowSid && flexAccountSid && user) {
-            // If if Twilio Chat Manager is initialized update config
+            // If Twilio Chat Manager is initialized update config
             if (manager) {
                 manager.updateConfig(chatConfigBase(config, isDarkMode, isDisabled));
                 return;
@@ -63,7 +65,7 @@ const FlexChat: React.FC<FlexChatProps> = ({ config, isDarkMode, isDisabled = fa
             // Build chat config
             const chatConfig = chatConfigBase(config, isDarkMode, isDisabled);
 
-            EntryPoint.defaultProps.tagline = isNorwegian ? 'Snakk med oss' : 'Chat with us';
+            EntryPoint.defaultProps.tagline = translateText(Texts.entryPointLabel, isNorwegian);
             MainHeader.defaultProps.imageUrl = logo;
             MainHeader.defaultProps.titleText = 'Support';
 
@@ -83,15 +85,9 @@ const FlexChat: React.FC<FlexChatProps> = ({ config, isDarkMode, isDisabled = fa
             MessageBubble.Content.remove('header');
             MessageBubble.Content.add(<MessageBubbleHeader key="newHeader" />, { sortOrder: 0 });
 
-            // Customize the content of the forst welcome message sent in the chat
+            // Customize the content of the first welcome message sent in the chat
             MessagingCanvas.defaultProps.predefinedMessage = {
-                body: isNorwegian
-                    ? `Velkommen til Intility Chat. 
-For å starte chaten, vennligst skriv **hei**.
-Vennligst ikke skriv inn problembeskrivelsen enda.`
-                    : `Welcome to Intility Chat. 
-To start the chat, please say **hi**.
-Please do not enter the problem description yet.`,
+                body: translateText(Texts.predefinedMessage, isNorwegian),
                 authorName: 'Intility Support',
                 isFromMe: false,
             };
@@ -103,17 +99,7 @@ Please do not enter the problem description yet.`,
                     if (isNorwegian) {
                         manager.strings = {
                             ...manager.strings,
-                            MessageCanvasTrayContent: `
-                            <h6>Takk for at du snakket med oss!</h6>
-                            <p>Hvis du har noen flere spørsmål. Vennligst ta kontakt med oss igjen.</p>`,
-                            MessageCanvasTrayButton: `Start en ny chat`,
-                            InputPlaceHolder: `Skriv melding`,
-                            Today: `I dag`,
-                            Yesterday: `I går`,
-                            WelcomeMessage: `Velkommen til kundesupport`,
-                            SendMessageTooltip: `Send melding`,
-                            AttachFileImageTooltip: `Legg til fil`,
-                            Read: `Lest`,
+                            ...Texts.norwegianUiTranslation,
                         };
                     }
 
@@ -121,6 +107,19 @@ Please do not enter the problem description yet.`,
                         ...defaultManagerState,
                         manager,
                     });
+
+                    // If preEngagementConfig then send as first message
+                    if (chatConfig.preEngagementConfig) {
+                        Actions.on('afterStartEngagement', (payload) => {
+                            const { question } = payload.formData;
+                            if (!question) return;
+
+                            const { channelSid } = manager.store.getState().flex.session;
+                            manager.chatClient
+                                .getChannelBySid(channelSid)
+                                .then((channel) => channel.sendMessage(question));
+                        });
+                    }
 
                     // Initialize the custom actions
                     initActions(manager);

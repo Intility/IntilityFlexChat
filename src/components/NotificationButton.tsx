@@ -1,6 +1,7 @@
 import { faExclamationCircle, faBell } from '@fortawesome/free-solid-svg-icons';
 import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Text, { translateText } from '../assets/texts';
 
 interface Props {
     isNorwegian: boolean;
@@ -13,19 +14,15 @@ const NotificationButton: React.FC<Props> = ({ isNorwegian }) => {
 
     const update = () => {
         if (Notification.permission === 'denied') {
-            setText(
-                isNorwegian
-                    ? 'Varsler er blokkert i nettleseren'
-                    : 'Notifications are blocked by the browser',
-            );
+            setText(translateText(Text.notificationBlocked, isNorwegian));
             setClasses('notificationsRequestDiv');
             setIcon(faExclamationCircle);
         } else if (Notification.permission === 'granted') {
-            setText(isNorwegian ? 'Varsler er skrudd på' : 'Notifications are enabled');
+            setText(translateText(Text.notificationAllowed, isNorwegian));
             setClasses('notificationsRequestDiv');
             setIcon(faBell);
         } else {
-            setText(isNorwegian ? 'Skru på varsler' : 'Enable notifications');
+            setText(translateText(Text.notificationToggle, isNorwegian));
             setClasses('notificationsRequestDiv clickable');
             setIcon(faBell);
         }
@@ -46,9 +43,7 @@ const NotificationButton: React.FC<Props> = ({ isNorwegian }) => {
             title={
                 Notification.permission === 'default'
                     ? undefined
-                    : isNorwegian
-                    ? 'Endre ved å trykke på hengelåsikonet i adresselinjefeltet.'
-                    : 'This can be reset by clicking the lock icon next to the URL.'
+                    : translateText(Text.notificationSettings, isNorwegian)
             }
             className={classes}
             onClick={() => {
