@@ -16,16 +16,17 @@ const primaryColors: CSSProps = {
 const primaryColorsOutlined: CSSProps = {
     background: 'none',
     color: theme.primaryColor,
-    border: `1px solid ${theme.primaryColor}`,
+    border: `2px solid ${theme.primaryColor}`,
     borderRadius: '3px',
     padding: '5.5px 8px',
     textTransform: 'none',
     letterSpacing: 'normal',
     fontSize: '14px',
+    fontWeight: 'bold',
 };
 
 const primaryColorsHover: CSSProps = {
-    background: theme.primaryColor,
+    background: theme.primaryColorHover,
     color: theme.textLight,
 };
 
@@ -104,11 +105,26 @@ export const generateTheme = (
             },
         },
         MessageInput: {
+            AttachFileButton: {
+                ...primaryColors,
+                ...fontFamily,
+                '&:hover': {
+                    ...primaryColorsHover,
+                    backgroundBlendMode: 'color',
+                },
+            },
+            FileBox: {
+                background: isDarkMode ? theme.mediumGreyBackground : theme.lightGreyBackground,
+                border: `1px solid ${isDarkMode ? 'rgb(71,71,72)' : 'rgb(217,217,217)'}`,
+                borderRadius: '4px',
+            },
+
             Container: {
                 background: isDarkMode ? theme.mediumGreyBackground : theme.lightGreyBackground,
                 color: isDarkMode ? theme.textLight : theme.textDark,
                 ...fontFamily,
                 fontSize: '14px !important',
+                borderRadius: '4px',
                 '::placeholder': {
                     color: isDarkMode ? theme.textLight : theme.textDark,
                 },
@@ -164,21 +180,41 @@ export const generateTheme = (
     FormComponents: {
         TextArea: {
             ...fontFamily,
+            color: isDarkMode ? theme.textLight : theme.textDark,
             '& div textarea': {
                 borderRadius: '4px',
                 backgroundColor: '#E6E6E6',
                 border: '1px solid #808080',
+                color: isDarkMode ? theme.textLight : theme.textDark,
+                fontSize: '14px',
+            },
+            '& div textarea::placeholder': {
+                color: isDarkMode ? theme.textLight : theme.textDark,
+            },
+            '& div textarea:hover': {
+                background: isDarkMode ? theme.darkGreyBackground : theme.lightBackground,
+            },
+            '& div textarea:focus': {
+                background: isDarkMode ? theme.darkGreyBackground : theme.lightBackground,
             },
         },
     },
     PreEngagementCanvas: {
         Container: {
             ...fontFamily,
-            maxWidth: '80%',
+            background: isDarkMode ? theme.darkGreyBackground : theme.lightBackground,
+            color: isDarkMode ? theme.textLight : theme.textDark,
+            paddingLeft: '10%',
+            paddingRight: '10%',
             display: 'flex',
             justifyContent: 'center',
+            '@media only screen and (max-width: 767px)': {
+                paddingLeft: '10px',
+                paddingRight: '10px',
+            },
             '& *': {
                 ...fontFamily,
+                background: isDarkMode ? theme.darkGreyBackground : theme.lightBackground,
             },
             '& div': {
                 flexGrow: 0,
@@ -198,6 +234,7 @@ export const generateTheme = (
         Form: {
             Label: {
                 ...fontFamily,
+                color: isDarkMode ? theme.textLight : theme.textDark,
                 fontSize: '14px',
             },
             SubmitButton: {

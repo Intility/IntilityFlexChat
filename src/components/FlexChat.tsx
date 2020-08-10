@@ -24,6 +24,7 @@ import MessageBubbleHeader from './MessageBubbleHeader';
 import initActions from '../config/chat/customActions';
 import useChatActions from '../useChatActions';
 import NotificationButton from './NotificationButton';
+import Texts, { translateText } from '../assets/texts';
 
 const defaultManagerState = {
     loading: false,
@@ -34,7 +35,7 @@ const defaultManagerState = {
 const FlexChat: React.FC<FlexChatProps> = ({ config, isDarkMode, isDisabled = false }) => {
     const [managerState, setManagerState] = useState<ManagerState>(defaultManagerState);
     const { manager, loading, error } = managerState;
-    const { flexFlowSid, flexAccountSid, user, preEngagementForm } = config;
+    const { flexFlowSid, flexAccountSid, user } = config;
     const isNorwegian = user.preferredLanguage?.includes('-NO');
     const { toggleChatVisibility } = useChatActions();
 
@@ -48,7 +49,7 @@ const FlexChat: React.FC<FlexChatProps> = ({ config, isDarkMode, isDisabled = fa
 
     useEffect(() => {
         if (flexFlowSid && flexAccountSid && user) {
-            // If if Twilio Chat Manager is initialized update config
+            // If Twilio Chat Manager is initialized update config
             if (manager) {
                 manager.updateConfig(chatConfigBase(config, isDarkMode, isDisabled));
                 return;
@@ -64,7 +65,7 @@ const FlexChat: React.FC<FlexChatProps> = ({ config, isDarkMode, isDisabled = fa
             // Build chat config
             const chatConfig = chatConfigBase(config, isDarkMode, isDisabled);
 
-            EntryPoint.defaultProps.tagline = isNorwegian ? 'Snakk med oss' : 'Chat with us';
+            EntryPoint.defaultProps.tagline = translateText(Texts.entryPointLabel, isNorwegian);
             MainHeader.defaultProps.imageUrl = logo;
             MainHeader.defaultProps.titleText = 'Support';
 
@@ -86,11 +87,7 @@ const FlexChat: React.FC<FlexChatProps> = ({ config, isDarkMode, isDisabled = fa
 
             // Customize the content of the first welcome message sent in the chat
             MessagingCanvas.defaultProps.predefinedMessage = {
-                body: isNorwegian
-                    ? `Velkommen til Intility Chat. 
-For at vi raskest mulig skal kunne hjelpe deg, vennligst beskriv problemet i **èn** melding.`
-                    : `Welcome to Intility Chat. 
-In order for us to be able to help you as quickly as possible, please describe the problem in **one** message.`,
+                body: translateText(Texts.predefinedMessage, isNorwegian),
                 authorName: 'Intility Support',
                 isFromMe: false,
             };
@@ -102,17 +99,7 @@ In order for us to be able to help you as quickly as possible, please describe t
                     if (isNorwegian) {
                         manager.strings = {
                             ...manager.strings,
-                            MessageCanvasTrayContent: `
-                            <h6>Takk for at du snakket med oss!</h6>
-                            <p>Hvis du har noen flere spørsmål. Vennligst ta kontakt med oss igjen.</p>`,
-                            MessageCanvasTrayButton: `Start en ny chat`,
-                            InputPlaceHolder: `Skriv melding`,
-                            Today: `I dag`,
-                            Yesterday: `I går`,
-                            WelcomeMessage: `Velkommen til kundesupport`,
-                            SendMessageTooltip: `Send melding`,
-                            AttachFileImageTooltip: `Legg til fil`,
-                            Read: `Lest`,
+                            ...Texts.norwegianUiTranslation,
                         };
                     }
 
