@@ -1,0 +1,27 @@
+.translate__info__text {
+    margin: 0;
+    font-size: 11px;
+    color: #969696;
+}
+
+.showTranslation__button {
+    display: inline-block;
+    border: none;
+    margin: 0;
+    margin-right: 5px;
+    padding: 0;
+    text-decoration: none;
+    background: none;
+    color: blue;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 13px;
+    cursor: pointer;
+    line-height: normal;
+    text-align: center;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
+.showTranslation__button:hover {
+    text-decoration: underline;
+}

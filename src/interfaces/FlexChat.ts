@@ -11,6 +11,8 @@ export type FlexChatProps = {
 export type ConfigProps = {
     flexFlowSid?: string;
     flexAccountSid?: string;
+    translatorKey?: string;
+    closeInInit?: boolean;
     loglevel?: 'debug' | 'superDebug';
     theme?: ThemeConfig;
     preEngagementForm?: FormAttributes;

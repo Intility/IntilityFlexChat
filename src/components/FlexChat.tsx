@@ -22,9 +22,10 @@ import '../styles/FlexChatError.css';
 import '../styles/header.css';
 import MessageBubbleHeader from './MessageBubbleHeader';
 import initActions from '../config/chat/customActions';
-import useChatActions from '../useChatActions';
+import useChatActions from '../hooks/useChatActions';
 import NotificationButton from './NotificationButton';
 import Texts, { translateText } from '../assets/texts';
+import TranslationBubbleBody from './TranslationBubbleBody';
 
 const defaultManagerState = {
     loading: false,
@@ -35,7 +36,7 @@ const defaultManagerState = {
 const FlexChat: React.FC<FlexChatProps> = ({ config, isDarkMode, isDisabled = false }) => {
     const [managerState, setManagerState] = useState<ManagerState>(defaultManagerState);
     const { manager, loading, error } = managerState;
-    const { flexFlowSid, flexAccountSid, user } = config;
+    const { flexFlowSid, flexAccountSid, user, closeInInit } = config;
     const isNorwegian = user.preferredLanguage?.includes('-NO');
     const { toggleChatVisibility } = useChatActions();
 
@@ -84,6 +85,16 @@ const FlexChat: React.FC<FlexChatProps> = ({ config, isDarkMode, isDisabled = fa
             // Since the messages in the chat header is a bit difficult with formatting of timestamps, we are enforcing 24h clock in chat message
             MessageBubble.Content.remove('header');
             MessageBubble.Content.add(<MessageBubbleHeader key="newHeader" />, { sortOrder: 0 });
+            MessageBubble.Content.remove('body');
+            MessageBubble.Content.add(
+                <TranslationBubbleBody
+                    perferredLanguage={user.preferredLanguage}
+                    key="translationBody"
+                />,
+                {
+                    sortOrder: 1,
+                },
+            );
 
             // Customize the content of the first welcome message sent in the chat
             MessagingCanvas.defaultProps.predefinedMessage = {
@@ -124,9 +135,11 @@ const FlexChat: React.FC<FlexChatProps> = ({ config, isDarkMode, isDisabled = fa
                     // Initialize the custom actions
                     initActions(manager);
 
-                    // Allways open the chat on init
-                    if (!manager.store.getState().flex.session.isEntryPointExpanded) {
-                        toggleChatVisibility();
+                    if (!closeInInit) {
+                        // Allways open the chat on init
+                        if (!manager.store.getState().flex.session.isEntryPointExpanded) {
+                            toggleChatVisibility();
+                        }
                     }
 
                     console.info(`Intility FlexChat: Chat Manager successfully initialized.`);
