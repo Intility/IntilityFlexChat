@@ -2,8 +2,6 @@ import React, { useEffect, useState } from 'react';
 import useTranslation from '../hooks/useTranslation';
 import { TranslateResponse } from '../interfaces/Translate';
 import '../styles/TranslationBubbleBody.css';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 
 interface TranslationBubbleBodyProps {
     key: string;
@@ -11,10 +9,8 @@ interface TranslationBubbleBodyProps {
     perferredLanguage: string;
 }
 
-const TranslationBubbleBody: React.FC<TranslationBubbleBodyProps> = ({
-    message,
-    perferredLanguage,
-}) => {
+const TranslationBubbleBody: React.FC<TranslationBubbleBodyProps> = (props) => {
+    const { message, perferredLanguage } = props;
     const { translateText } = useTranslation();
 
     const [translatedText, setTranslatedText] = useState<undefined | TranslateResponse>();
@@ -43,19 +39,23 @@ const TranslationBubbleBody: React.FC<TranslationBubbleBodyProps> = ({
 
     // Make request to translate text
     useEffect(() => {
-        const shortenedLangugeCode = perferredLanguage.split('-')[0];
-        if (!message.isFromMe) {
+        // message.index is populated for messages sent in chat.
+        if (!message.isFromMe && message.index) {
+            const shortenedLangugeCode = perferredLanguage.split('-')[0];
+
             if (message?.source?.state?.body) {
                 translateText(message.source.state.body, [shortenedLangugeCode, 'en'])
                     .then((respose) => setTranslatedText(respose.data[0]))
                     .catch((err) => console.error('Translation error:', err));
             }
+
+            if (message?.source?.body) {
+                translateText(message.source.body, [shortenedLangugeCode, 'en'])
+                    .then((respose) => setTranslatedText(respose.data[0]))
+                    .catch((err) => console.error('Translation error:', err));
+            }
         }
     }, [message, perferredLanguage]);
-
-    // Get translated text from response object
-    const getTranslation = () =>
-        translatedText?.translations.find((t) => t.to === currentTranslation);
 
     /*
         Orger by translation
@@ -63,41 +63,44 @@ const TranslationBubbleBody: React.FC<TranslationBubbleBodyProps> = ({
         2. English
         3. Original message
     */
-    const toggleTranslation = () => {
+    const nextTranslation = () => {
         switch (currentTranslation) {
             case 'en':
-                return setCurrentTranslation('original');
+                return 'original';
             case 'original':
-                return setCurrentTranslation(perferredLanguage.split('-')[0]);
+                return perferredLanguage.split('-')[0];
             default:
-                return setCurrentTranslation('en');
+                return 'en';
         }
     };
+
+    // Get translated text from response object
+    const getTranslation = () =>
+        translatedText?.translations.find((t) => t.to === currentTranslation);
+
+    const toggleTranslation = () => setCurrentTranslation(nextTranslation);
 
     return (
         <div style={textBoxStyle}>
             <p style={textStyle}>
                 {getTranslation()?.text || message?.source?.state?.body || message?.source?.body}
             </p>
-            {!message.isFromMe && message?.source?.state && (
+            {!message.isFromMe && (message?.source?.state || message?.source?.body) && (
                 <div
                     style={{
                         display: 'flex',
-                        justifyContent: 'space-between',
-                        alignItems: 'center',
+                        flexDirection: 'column',
+                        alignItems: 'start',
                         marginTop: '5px',
                     }}
                 >
                     <button className="showTranslation__button" onClick={toggleTranslation}>
-                        {currentTranslation === 'en' ? 'Show Original' : 'Show Translation'}
+                        {currentTranslation === 'en' ? 'Show Original' : `Show Translation`}
                     </button>
-                    <FontAwesomeIcon
-                        id="icon"
-                        aria-describedby="icon"
-                        icon={faInfoCircle}
-                        color="#969696"
-                        title="Oversettelse skjer automatisk, feil kan forekomme"
-                    />
+
+                    <p className="translate__info__text">
+                        Automatic translation, errors may occur.
+                    </p>
                 </div>
             )}
         </div>

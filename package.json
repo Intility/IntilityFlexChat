@@ -39,8 +39,10 @@
         "@fortawesome/free-solid-svg-icons": "^5.13.0",
         "@fortawesome/react-fontawesome": "^0.1.9",
         "@twilio/flex-webchat-ui": "^2.5.0",
+        "@types/uuid": "^8.3.0",
         "axios": "^0.19.2",
-        "react-scripts": "3.4.1"
+        "react-scripts": "3.4.1",
+        "uuid": "^8.3.0"
     },
     "devDependencies": {
         "@babel/cli": "^7.8.4",
