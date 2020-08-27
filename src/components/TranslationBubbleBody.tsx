@@ -97,10 +97,6 @@ const TranslationBubbleBody: React.FC<TranslationBubbleBodyProps> = (props) => {
                     <button className="showTranslation__button" onClick={toggleTranslation}>
                         {currentTranslation === 'en' ? 'Show Original' : `Show Translation`}
                     </button>
-
-                    <p className="translate__info__text">
-                        Automatic translation, errors may occur.
-                    </p>
                 </div>
             )}
         </div>

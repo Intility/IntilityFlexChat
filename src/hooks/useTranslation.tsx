@@ -16,23 +16,13 @@ const useTranslation = () => {
         },
     });
 
-    const detectLanguage = (text: string) =>
-        instance.post('/detect', [{ text }], {
-            headers: {
-                ...instance.defaults.headers,
-                'X-ClientTraceId': uuidv4(),
-            },
-        });
+    const detectLanguage = (text: string) => instance.post('/detect', [{ text }]);
 
     const translateText = (text: string, to: string | string[]) =>
         instance.post<TranslateRequest[], AxiosResponse<TranslateResponse[]>>(
             `/translate`,
             [{ text }],
             {
-                headers: {
-                    ...instance.defaults.headers,
-                    'X-ClientTraceId': uuidv4(),
-                },
                 params: {
                     ...instance.defaults.params,
                     to: to instanceof Array ? to.join(',') : to,

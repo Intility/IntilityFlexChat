@@ -8,6 +8,7 @@ import {
     RootContainer,
     MessageBubble,
     Actions,
+    MainContainer,
 } from '@twilio/flex-webchat-ui';
 import chatConfigBase from '../config/chat/chatAppConfig';
 import logo from '../assets/logo.png';
@@ -26,6 +27,7 @@ import useChatActions from '../hooks/useChatActions';
 import NotificationButton from './NotificationButton';
 import Texts, { translateText } from '../assets/texts';
 import TranslationBubbleBody from './TranslationBubbleBody';
+import TranslationInfoHeader from './TranslationInfoHeader';
 
 const defaultManagerState = {
     loading: false,
@@ -85,7 +87,9 @@ const FlexChat: React.FC<FlexChatProps> = ({ config, isDarkMode, isDisabled = fa
             // Since the messages in the chat header is a bit difficult with formatting of timestamps, we are enforcing 24h clock in chat message
             MessageBubble.Content.remove('header');
             MessageBubble.Content.add(<MessageBubbleHeader key="newHeader" />, { sortOrder: 0 });
-            MessageBubble.Content.remove('body');
+
+            // Translation content
+            // MessageBubble.Content.remove('body');
             MessageBubble.Content.add(
                 <TranslationBubbleBody
                     perferredLanguage={user.preferredLanguage}
@@ -95,6 +99,10 @@ const FlexChat: React.FC<FlexChatProps> = ({ config, isDarkMode, isDisabled = fa
                     sortOrder: 1,
                 },
             );
+
+            MainContainer.Content.add(<TranslationInfoHeader key="translationInfoHeader" />, {
+                sortOrder: 0,
+            });
 
             // Customize the content of the first welcome message sent in the chat
             MessagingCanvas.defaultProps.predefinedMessage = {
@@ -145,11 +153,11 @@ const FlexChat: React.FC<FlexChatProps> = ({ config, isDarkMode, isDisabled = fa
                     console.info(`Intility FlexChat: Chat Manager successfully initialized.`);
                 })
                 .catch((error) => {
+                    console.error(`Intility FlexChat: Flex chat error`, error);
                     setManagerState({
                         ...defaultManagerState,
                         error: error.message,
                     });
-                    console.error(`Intility FlexChat: Flex chat error`, error);
                 });
         }
     }, [config, flexAccountSid, flexFlowSid, isDarkMode, manager, user]);
