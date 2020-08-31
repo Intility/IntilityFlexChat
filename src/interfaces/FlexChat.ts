@@ -4,8 +4,14 @@ import { ReactNode } from 'react';
 export type FlexChatProps = {
     children?: ReactNode;
     config: ConfigProps;
+    isDev?: boolean;
     isDarkMode: boolean;
     isDisabled?: boolean;
+};
+
+export type FormConfig = {
+    isEnabled: boolean;
+    message?: string;
 };
 
 export type ConfigProps = {
@@ -13,8 +19,9 @@ export type ConfigProps = {
     flexAccountSid?: string;
     loglevel?: 'debug' | 'superDebug';
     theme?: ThemeConfig;
-    preEngagementForm?: FormAttributes;
+    preEngagementFormMessage: string;
     user: ChatContext;
+    closeOnInit: boolean;
 };
 
 export type ThemeConfig = {

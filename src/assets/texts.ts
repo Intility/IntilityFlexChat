@@ -14,10 +14,8 @@ const entryPointLabel: MultiLangText = {
 };
 
 const predefinedMessage: MultiLangText = {
-    en: `Welcome to Intility Chat. 
-In order for us to be able to help you as quickly as possible, please describe the problem in **one** message.`,
-    no: `Velkommen til Intility Chat. 
-For at vi raskest mulig skal kunne hjelpe deg, vennligst beskriv problemet i **èn** melding.`,
+    en: `Welcome to Intility Chat.`,
+    no: `Velkommen til Intility Chat.`,
 };
 
 const norwegianUiTranslation: Strings = {

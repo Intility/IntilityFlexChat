@@ -32,7 +32,12 @@ const defaultManagerState = {
     error: undefined,
 };
 
-const FlexChat: React.FC<FlexChatProps> = ({ config, isDarkMode, isDisabled = false }) => {
+const FlexChat: React.FC<FlexChatProps> = ({
+    config,
+    isDarkMode,
+    isDisabled = false,
+    isDev = false,
+}) => {
     const [managerState, setManagerState] = useState<ManagerState>(defaultManagerState);
     const { manager, loading, error } = managerState;
     const { flexFlowSid, flexAccountSid, user } = config;
@@ -67,7 +72,7 @@ const FlexChat: React.FC<FlexChatProps> = ({ config, isDarkMode, isDisabled = fa
 
             EntryPoint.defaultProps.tagline = translateText(Texts.entryPointLabel, isNorwegian);
             MainHeader.defaultProps.imageUrl = logo;
-            MainHeader.defaultProps.titleText = 'Support';
+            MainHeader.defaultProps.titleText = isDev ? 'Support Dev' : 'Support';
 
             // If Entrypoint button is hidden, the Cloe button in the chat header should be hidden as well
             if (config.theme?.EntryPoint?.display?.includes('none')) {
@@ -110,9 +115,8 @@ const FlexChat: React.FC<FlexChatProps> = ({ config, isDarkMode, isDisabled = fa
 
                     // If preEngagementConfig then send as first message
                     if (chatConfig.preEngagementConfig) {
-                        Actions.on('afterStartEngagement', (payload) => {
-                            const { question } = payload.formData;
-                            if (!question) return;
+                        Actions.on('afterStartEngagement', () => {
+                            const question = isDev ? 'danitest123' : 'Start Chat';
 
                             const { channelSid } = manager.store.getState().flex.session;
                             manager.chatClient
@@ -124,9 +128,11 @@ const FlexChat: React.FC<FlexChatProps> = ({ config, isDarkMode, isDisabled = fa
                     // Initialize the custom actions
                     initActions(manager);
 
-                    // Allways open the chat on init
-                    if (!manager.store.getState().flex.session.isEntryPointExpanded) {
-                        toggleChatVisibility();
+                    if (!config.closeOnInit) {
+                        // Allways open the chat on init
+                        if (!manager.store.getState().flex.session.isEntryPointExpanded) {
+                            toggleChatVisibility();
+                        }
                     }
 
                     console.info(`Intility FlexChat: Chat Manager successfully initialized.`);
