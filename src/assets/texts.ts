@@ -1,12 +1,13 @@
 import { Strings } from '@twilio/flex-webchat-ui';
-
-interface MultiLangText {
-    en: string;
-    no: string;
-}
+import { MultiLangText } from '../interfaces/FlexChat';
 
 export const translateText = (text: MultiLangText, isNorwegian: boolean) =>
     isNorwegian ? text.no : text.en;
+
+const preEngagementFormMessage: MultiLangText = {
+    en: '',
+    no: '',
+};
 
 const entryPointLabel: MultiLangText = {
     en: 'Chat with us',
@@ -67,4 +68,5 @@ export default {
     notificationAllowed,
     notificationToggle,
     notificationSettings,
+    preEngagementFormMessage,
 };

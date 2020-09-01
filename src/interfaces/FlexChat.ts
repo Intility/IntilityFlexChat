@@ -1,4 +1,4 @@
-import { Manager, CSSProps, FormAttributes } from '@twilio/flex-webchat-ui';
+import { Manager, CSSProps } from '@twilio/flex-webchat-ui';
 import { ReactNode } from 'react';
 
 export type FlexChatProps = {
@@ -9,9 +9,9 @@ export type FlexChatProps = {
     isDisabled?: boolean;
 };
 
-export type FormConfig = {
-    isEnabled: boolean;
-    message?: string;
+export type MultiLangText = {
+    en: string;
+    no: string;
 };
 
 export type ConfigProps = {
@@ -19,7 +19,7 @@ export type ConfigProps = {
     flexAccountSid?: string;
     loglevel?: 'debug' | 'superDebug';
     theme?: ThemeConfig;
-    preEngagementFormMessage: string;
+    preEngagementFormMessage?: MultiLangText;
     user: ChatContext;
     closeOnInit: boolean;
 };
