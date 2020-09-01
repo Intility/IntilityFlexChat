@@ -1,12 +1,13 @@
 import { Strings } from '@twilio/flex-webchat-ui';
-
-interface MultiLangText {
-    en: string;
-    no: string;
-}
+import { MultiLangText } from '../interfaces/FlexChat';
 
 export const translateText = (text: MultiLangText, isNorwegian: boolean) =>
     isNorwegian ? text.no : text.en;
+
+const preEngagementFormMessage: MultiLangText = {
+    en: '',
+    no: '',
+};
 
 const entryPointLabel: MultiLangText = {
     en: 'Chat with us',
@@ -14,10 +15,8 @@ const entryPointLabel: MultiLangText = {
 };
 
 const predefinedMessage: MultiLangText = {
-    en: `Welcome to Intility Chat. 
-In order for us to be able to help you as quickly as possible, please describe the problem in **one** message.`,
-    no: `Velkommen til Intility Chat. 
-For at vi raskest mulig skal kunne hjelpe deg, vennligst beskriv problemet i **èn** melding.`,
+    en: `Welcome to Intility Chat.`,
+    no: `Velkommen til Intility Chat.`,
 };
 
 const norwegianUiTranslation: Strings = {
@@ -69,4 +68,5 @@ export default {
     notificationAllowed,
     notificationToggle,
     notificationSettings,
+    preEngagementFormMessage,
 };
