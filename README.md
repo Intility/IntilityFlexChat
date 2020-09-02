@@ -35,13 +35,6 @@ This project utilizes among others the following libraries:
 npm i @intility/flex-chat
 ```
 
-#### CDN
-
-```html
-<script src="https://unpkg.com/@intility/flex-chat@1/dist/index.js"></script>
-```
-
-
 ### Required Configuration
 
 #### Environment variables
@@ -106,11 +99,6 @@ const App: React.FC = (props) => {
     const config: ConfigProps = {
         flexAccountSid: process.env.REACT_APP_ACCOUNT_SID,
         flexFlowSid: process.env.REACT_APP_FLOW_SID,
-        preEngagementForm: {
-            description: 'Velkommen til Intility Chat',
-            message: 'lorem ipsum dolor sit amet...',
-            submitLabel: 'Submit',
-        },
         user: {
             userPrincipalName: 'ola.normann@intility.no',
             mail: 'ola.normann@intility.no',
@@ -129,14 +117,17 @@ ReactDOM.render(<App />, document.getElementById('root'));
 
 ### Optional Configuration
 
-#### Open the chat on page load
+#### Keep the chat closed on page load
 
-If you want to have the Chat component expanded on initialization you can set the property named `closeOnInit` to `false` in the config object
+If you want to have the Chat component closed on initialization you can set the property named `closeOnInit` to `true` in the config object. 
+Default behavior is for the chat component to expand on page load.
+
+**NOTE:** If there is an ongoing chat session the chat window will always expand on page load. 
 
 ```ts
 const config: ConfigProps = {
     // ...required config
-    closeOnInit: false
+    closeOnInit: true
 };
 ```
 
@@ -158,11 +149,11 @@ const config: ConfigProps = {
 
 #### Theming
 
-You can change properties on the `MainContainer`, `EntryPoint` and `CloseButton` components to make them fit your experience, e.g. hide the `EntryPoint` button or change the height, width or render properties like position.
+You can change CSS properties on the `MainContainer`, `EntryPoint` and `CloseButton` components to make them fit your experience, e.g. hide the `EntryPoint` button or change the height, width or render properties like position.
 
 * MainContainer: The expanded chat box.
 * EntryPont: Toggle button in the bottom right corner.
-* CloseButton: Toggl button on the top bar in the `MainContainer`
+* CloseButton: Toggle button on the top bar in the `MainContainer`
 
 **NOTE:** some properties will be default from Twilio or overwritten by Intility's setup of the chat component.
 
