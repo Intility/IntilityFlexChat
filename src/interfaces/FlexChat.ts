@@ -18,15 +18,16 @@ export type ConfigProps = {
     flexFlowSid?: string;
     flexAccountSid?: string;
     loglevel?: 'debug' | 'superDebug';
+    closeOnInit?: boolean;
     theme?: ThemeConfig;
     preEngagementFormMessage?: MultiLangText;
     user: ChatContext;
-    closeOnInit: boolean;
 };
 
 export type ThemeConfig = {
     MainContainer?: CSSProps;
     EntryPoint?: CSSProps;
+    CloseButton?: CSSProps;
 };
 
 export type ChatContext = {
@@ -45,7 +46,8 @@ export type AllowedValues =
     | null
     | string[]
     | number[]
-    | boolean[];
+    | boolean[]
+    | object;
 
 export type ManagerState = {
     loading: boolean;
