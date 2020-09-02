@@ -1,23 +1,21 @@
 import { FormAttributes } from '@twilio/flex-webchat-ui';
 
-const preEngagementConfig: FormAttributes = {
+const preEngagementConfig = (message: string): FormAttributes => ({
     description: 'Velkommen til Intility Chat',
-    message:
-        'Vennligst beskriv problemet du opplever, slik at vi kan sette deg i kontakt med den rette agenten med best erfaring i emnet.',
-    submitLabel: 'Submit',
+    message,
+    submitLabel: 'Start Chat',
     fields: [
         {
             label: 'Please describe your issue',
-            type: 'TextareaItem',
+            type: 'InputItem',
             attributes: {
                 name: 'question',
                 type: 'text',
-                placeholder: 'Type your question here',
-                required: true,
-                rows: 5,
+                placeholder: 'Type your issue here',
+                required: false,
             },
         },
     ],
-};
+});
 
 export default preEngagementConfig;

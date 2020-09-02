@@ -178,6 +178,9 @@ export const generateTheme = (
         },
     },
     FormComponents: {
+        Input: {
+            display: 'none',
+        },
         TextArea: {
             ...fontFamily,
             color: isDarkMode ? theme.textLight : theme.textDark,
