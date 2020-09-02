@@ -55,7 +55,7 @@ type ConfigProps = {
     loglevel?: 'debug' | 'superDebug';
     closeOnInit?: boolean;
     theme?: ThemeConfig;
-    preEngagementForm?: FormAttributes;
+    preEngagementFormMessage?: MultiLangText;
     user: ChatContext;
 };
 
