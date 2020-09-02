@@ -109,17 +109,15 @@ const FlexChat: React.FC<FlexChatProps> = ({
                         manager,
                     });
 
-                    // If preEngagementConfig then send as first message
-                    if (chatConfig.preEngagementConfig) {
-                        Actions.on('afterStartEngagement', () => {
-                            const question = isDev ? 'danitest123' : 'Start Chat';
+                    // Send the initialize message
+                    Actions.on('afterStartEngagement', () => {
+                        const question = isDev ? 'danitest123' : 'Start Chat';
 
-                            const { channelSid } = manager.store.getState().flex.session;
-                            manager.chatClient
-                                .getChannelBySid(channelSid)
-                                .then((channel) => channel.sendMessage(question));
-                        });
-                    }
+                        const { channelSid } = manager.store.getState().flex.session;
+                        manager.chatClient
+                            .getChannelBySid(channelSid)
+                            .then((channel) => channel.sendMessage(question));
+                    });
 
                     // Initialize the custom actions
                     initActions(manager);
