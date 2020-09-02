@@ -56,6 +56,7 @@ const FlexChat: React.FC<FlexChatProps> = ({
         if (flexFlowSid && flexAccountSid && user) {
             // If Twilio Chat Manager is initialized update config
             if (manager) {
+                console.info('Intility FlexChat: Updating chat config');
                 manager.updateConfig(chatConfigBase(config, isDarkMode, isDisabled));
                 return;
             }
@@ -73,11 +74,6 @@ const FlexChat: React.FC<FlexChatProps> = ({
             EntryPoint.defaultProps.tagline = translateText(Texts.entryPointLabel, isNorwegian);
             MainHeader.defaultProps.imageUrl = logo;
             MainHeader.defaultProps.titleText = isDev ? 'Support Dev' : 'Support';
-
-            // If Entrypoint button is hidden, the Cloe button in the chat header should be hidden as well
-            if (config.theme?.EntryPoint?.display?.includes('none')) {
-                MainHeader.Content.remove('close-button');
-            }
 
             // If In-Browser notifications is supported. Add the custom Notification button to the chat header
             if ('Notification' in window && navigator.permissions) {
@@ -113,17 +109,15 @@ const FlexChat: React.FC<FlexChatProps> = ({
                         manager,
                     });
 
-                    // If preEngagementConfig then send as first message
-                    if (chatConfig.preEngagementConfig) {
-                        Actions.on('afterStartEngagement', () => {
-                            const question = isDev ? 'danitest123' : 'Start Chat';
+                    // Send the initialize message
+                    Actions.on('afterStartEngagement', () => {
+                        const question = isDev ? 'danitest123' : 'Start Chat';
 
-                            const { channelSid } = manager.store.getState().flex.session;
-                            manager.chatClient
-                                .getChannelBySid(channelSid)
-                                .then((channel) => channel.sendMessage(question));
-                        });
-                    }
+                        const { channelSid } = manager.store.getState().flex.session;
+                        manager.chatClient
+                            .getChannelBySid(channelSid)
+                            .then((channel) => channel.sendMessage(question));
+                    });
 
                     // Initialize the custom actions
                     initActions(manager);

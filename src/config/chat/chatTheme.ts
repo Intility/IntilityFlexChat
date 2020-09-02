@@ -159,6 +159,9 @@ export const generateTheme = (
             ...fontFamily,
             background: isDarkMode ? theme.darkBackground : theme.darkGreyBackground,
             color: theme.textLight,
+            '& .Twilio-Icon-Close': {
+                ...themeConfig.CloseButton,
+            },
             '&:hover': {
                 cursor: 'default',
             },

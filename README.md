@@ -60,6 +60,7 @@ type ConfigProps = {
     flexFlowSid?: string;
     flexAccountSid?: string;
     loglevel?: 'debug' | 'superDebug';
+    closeOnInit?: boolean;
     theme?: ThemeConfig;
     preEngagementForm?: FormAttributes;
     user: ChatContext;
@@ -81,7 +82,7 @@ Since this package initializes an chat session with an Intility Support Agent th
 **NOTE:** This components does not give other requirements to authentication implementations but to provide the components with these values.
 
 ```ts
-type AllowedValues = string | number | boolean | undefined | null | string[] | number[] | boolean[];
+type AllowedValues = string | number | boolean | undefined | null | string[] | number[] | boolean[] | object;
 
 type UserConfigProps = {
     userPrincipalName: string;
@@ -89,64 +90,6 @@ type UserConfigProps = {
     mobilePhone: string;
     preferredLanguage: string;
     [key: string]: AllowedValues;
-};
-```
-
-### Optional Configuration
-
-#### PreEngagementForm
-
-If you want to add a form for the client to fill before a chat is started you can add a preEngagementForm property to the config object.
-This property follows the `FormAttributes` type defined in the [Twilio Docs](https://www.twilio.com/docs/flex/webchat/pre-engagement-and-context).
-
-**NOTE:** When the client submits the form the form field named **question** will be sent as the initialization message to start the chat session.
-
-
-```ts
-const config: ConfigProps = {
-    // ...required config
-    preEngagementForm: {
-        description: 'Velkommen til Intility Chat',
-        message: 'lorem ipsum dolor sit amet...',
-        submitLabel: 'Submit',
-        fields: [
-            {
-                label: 'How many Vogons does it take to change a lightbulb?',
-                type: 'TextareaItem',
-                attributes: {
-                    name: 'question',
-                    type: 'text',
-                    placeholder: 'Type your question here',
-                    required: true,
-                    rows: 5,
-                },
-            },
-        ],
-    },
-};
-```
-
-#### Theming
-
-You can change properties on the `MainContainer` and `EntryPoint` components to make them fit your experience, e.g. hide the `EntryPoint` button or change the height, width or render properties like position.
-
-**NOTE:** some properties will be default from Twilio or overwritten by Intility's setup of the chat component.
-
-```ts
-const config: ConfigProps = {
-    // ...required config
-    theme: {
-        MainContainer: {
-            width: '800px',
-            height: '87vh',
-            '@media only screen and (min-width: 1415px)': {
-                width: `1080px`,
-            },
-            EntryPoint: {
-                display: 'none !important',
-            },
-        },
-    },
 };
 ```
 
@@ -167,19 +110,6 @@ const App: React.FC = (props) => {
             description: 'Velkommen til Intility Chat',
             message: 'lorem ipsum dolor sit amet...',
             submitLabel: 'Submit',
-            fields: [
-                {
-                    label: 'How many Vogons does it take to change a lightbulb?',
-                    type: 'TextareaItem',
-                    attributes: {
-                        name: 'question',
-                        type: 'text',
-                        placeholder: 'Type your question here',
-                        required: true,
-                        rows: 5,
-                    },
-                },
-            ],
         },
         user: {
             userPrincipalName: 'ola.normann@intility.no',
@@ -197,11 +127,95 @@ const App: React.FC = (props) => {
 ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
+### Optional Configuration
+
+#### Open the chat on page load
+
+If you want to have the Chat component expanded on initialization you can set the property named `closeOnInit` to `false` in the config object
+
+```ts
+const config: ConfigProps = {
+    // ...required config
+    closeOnInit: false
+};
+```
+
+#### PreEngagementFormMessage
+
+If you want to add a message to the start page you can add a property named `preEngagementFormMessage` to the config object.
+
+This object is of type `MultiLangText` and consists of an English (en) and Norwegian (no).
+
+```ts
+const config: ConfigProps = {
+    // ...required config
+    preEngagementFormMessage: {
+        en: 'Du kan nå teknikere på ansvarlig avdeling innenfor tidspunktene 08:00 - 16:00 (CET/CEST)',
+        no: 'You can reach technicians in the responsible department within the hours 08:00 - 16:00 (CET / CEST)';
+    },
+};
+```
+
+#### Theming
+
+You can change properties on the `MainContainer`, `EntryPoint` and `CloseButton` components to make them fit your experience, e.g. hide the `EntryPoint` button or change the height, width or render properties like position.
+
+* MainContainer: The expanded chat box.
+* EntryPont: Toggle button in the bottom right corner.
+* CloseButton: Toggl button on the top bar in the `MainContainer`
+
+**NOTE:** some properties will be default from Twilio or overwritten by Intility's setup of the chat component.
+
+```ts
+type ThemeConfig = {
+    MainContainer?: CSSProps;
+    EntryPoint?: CSSProps;
+    CloseButton?: CSSProps;
+};
+```
+
+```ts
+const config: ConfigProps = {
+    // ...required config
+    theme: {
+        MainContainer: {
+            width: '800px',
+            height: '87vh',
+            '@media only screen and (min-width: 1415px)': {
+                width: `1080px`,
+            },
+        },
+        // Display EntryPoint for small devices (i.e. Smart phones)
+        EntryPoint: {
+            '@media only screen and (min-width: 767px)': {
+                display: 'none !important',
+            },
+        },
+        // Display CloseButton for small devices (i.e. Smart phones)
+        CloseButton: {
+            '@media only screen and (min-width: 767px)': {
+                display: 'none',
+            },
+        },
+    },
+};
+```
+
 ## Usage
 
 ### Hooks
 
-This component
+This component can be interacted with using integrated `useChatActions` hook.
+
+```ts
+type UseChatActionsFuncs = {
+    setInputFieldContent: (body: string) => Promise<unknown>;
+    setAndSendInputFieldContent: (body: string) => Promise<unknown>;
+    toggleChatVisibility: () => Promise<unknown>;
+    hasUserReadLastMessage: () => Promise<boolean>;
+    isChatOpen: () => Promise<boolean>;
+};
+```
 
 ## Illustration
 
