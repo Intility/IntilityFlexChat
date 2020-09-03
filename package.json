@@ -2,9 +2,8 @@
     "name": "@intility/flex-chat",
     "description": "Wrapped component with basic setup and theming based on Twilios WebChat Component",
     "version": "1.2.9",
-    "main": "dist/index.js",
-    "module": "es/index.js",
-    "types": "types/src/index.d.ts",
+    "license": "MIT",
+    "deprecated": false,
     "author": {
         "name": "Christian Marker / Intility AS",
         "email": "christian.marker@intility.no"
@@ -15,20 +14,23 @@
             "email": "eva.maria.dahlo@intility.no"
         }
     ],
-    "license": "MIT",
-    "deprecated": false,
     "repository": {
         "url": "https://github.com/Intility/IntilityFlexChat"
     },
+    "bundle": "bundle/bundle.min.js",
+    "main": "dist/index.js",
+    "module": "es/index.js",
+    "types": "types/src/index.d.ts",
     "scripts": {
         "start": "react-scripts start",
-        "build": "run-s lint clean:build clean:build build:cjs build:es build:types",
+        "build": "run-s lint clean:build build:cjs build:es build:types build:rollup",
         "build:watch": "babel src --out-dir dist --extensions \".ts,.tsx\" --watch --copy-files",
         "build:compile": "babel src --out-dir dist --extensions \".ts,.tsx\" --copy-files",
         "build:types": "tsc --project tsconfig.types.json",
         "build:cjs": "babel src --out-dir dist --extensions \".ts,.tsx\" --copy-files",
         "build:es": "babel src --out-dir es --extensions \".ts,.tsx\" --copy-files --env-name es",
-        "clean:build": "rimraf dist es types",
+        "build:rollup": "rollup -c --environment NODE_ENV:development",
+        "clean:build": "rimraf dist es types bundle",
         "lint": "tsc && eslint src/**/*.ts[x]",
         "lint:fix": "eslint src/**/*.ts[x] --fix",
         "test": "react-scripts test",
@@ -48,6 +50,12 @@
         "@babel/preset-env": "^7.9.6",
         "@babel/preset-react": "^7.9.4",
         "@babel/preset-typescript": "^7.9.0",
+        "@rollup/plugin-commonjs": "^15.0.0",
+        "@rollup/plugin-json": "^4.1.0",
+        "@rollup/plugin-node-resolve": "^9.0.0",
+        "@rollup/plugin-typescript": "^5.0.2",
+        "@rollup/plugin-url": "^5.0.1",
+        "@svgr/rollup": "^5.4.0",
         "@types/jest": "^24.9.1",
         "@types/node": "^12.12.37",
         "@types/react": "^16.9.34",
@@ -62,6 +70,13 @@
         "react": "^16.13.1",
         "react-dom": "^16.13.1",
         "rimraf": "^3.0.2",
+        "rollup": "^2.26.9",
+        "rollup-plugin-babel": "^4.4.0",
+        "rollup-plugin-peer-deps-external": "^2.2.3",
+        "rollup-plugin-postcss": "^3.1.8",
+        "rollup-plugin-scss": "^2.6.0",
+        "rollup-plugin-terser": "^7.0.1",
+        "rollup-plugin-typescript2": "^0.27.2",
         "typescript": "^3.9.2"
     },
     "babel": {
