@@ -16,7 +16,12 @@ export default {
     input: 'src/index.tsx',
     output: [
         {
-            file: pkg.bundle,
+            file: pkg.bundle.es,
+            format: 'es',
+            sourcemap: true,
+        },
+        {
+            file: pkg.bundle.cjs,
             format: 'cjs',
             sourcemap: true,
         },
@@ -41,6 +46,7 @@ export default {
             presets: ['react-app'],
             extensions: [...DEFAULT_EXTENSIONS, '.ts', '.tsx'],
             plugins: [
+                '@babel/plugin-transform-modules-commonjs',
                 '@babel/plugin-proposal-object-rest-spread',
                 '@babel/plugin-proposal-optional-chaining',
                 '@babel/plugin-syntax-dynamic-import',

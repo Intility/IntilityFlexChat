@@ -9,11 +9,11 @@
         "skipLibCheck": true,
         "allowSyntheticDefaultImports": true,
         "forceConsistentCasingInFileNames": true,
-        "module": "esnext",
+        "module": "ES6",
         "resolveJsonModule": true,
         "jsx": "react",
-        // Target latest version of ECMAScript.
-        "target": "ES2015", //"esnext",
+        // Target version of ECMAScript.
+        "target": "ES6",
         // Search under node_modules for non-relative imports.
         "moduleResolution": "node",
         // Don't emit; allow Babel to transform files.

@@ -17,7 +17,10 @@
     "repository": {
         "url": "https://github.com/Intility/IntilityFlexChat"
     },
-    "bundle": "bundle/bundle.min.js",
+    "bundle": {
+        "cjs": "bundle/cjs/bundle.min.js",
+        "es": "bundle/es/bundle.min.js"
+    },
     "main": "dist/index.js",
     "module": "es/index.js",
     "types": "types/src/index.d.ts",
