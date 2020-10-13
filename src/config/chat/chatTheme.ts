@@ -159,6 +159,9 @@ export const generateTheme = (
             ...fontFamily,
             background: isDarkMode ? theme.darkBackground : theme.darkGreyBackground,
             color: theme.textLight,
+            '& .Twilio-Icon-Close': {
+                ...themeConfig.CloseButton,
+            },
             '&:hover': {
                 cursor: 'default',
             },
@@ -180,6 +183,10 @@ export const generateTheme = (
     FormComponents: {
         Input: {
             display: 'none',
+        },
+        Select: {
+            ...fontFamily,
+            color: isDarkMode ? theme.textLight : theme.textDark,
         },
         TextArea: {
             ...fontFamily,
@@ -228,7 +235,7 @@ export const generateTheme = (
                 flexGrow: 0,
             },
             // Style Form description
-            '& div form div:first-child': {
+            '& div form > div:first-child': {
                 fontSize: '19px',
             },
             // Style form message

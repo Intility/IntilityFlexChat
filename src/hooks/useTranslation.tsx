@@ -16,9 +16,9 @@ const useTranslation = () => {
         },
     });
 
-    const detectLanguage = (text: string) => instance.post('/detect', [{ text }]);
+    const detectLanguageAsync = (text: string) => instance.post('/detect', [{ text }]);
 
-    const translateText = (text: string, to: string | string[]) =>
+    const translateTextAsync = (text: string, to: string | string[]) =>
         instance.post<TranslateRequest[], AxiosResponse<TranslateResponse[]>>(
             `/translate`,
             [{ text }],
@@ -30,7 +30,7 @@ const useTranslation = () => {
             },
         );
 
-    return { detectLanguage, translateText };
+    return { detectLanguageAsync, translateTextAsync };
 };
 
 export default useTranslation;

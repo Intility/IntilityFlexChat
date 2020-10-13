@@ -20,8 +20,8 @@ module.exports = {
         "@typescript-eslint/explicit-function-return-type": "off",
         "react/prop-types": "off",
         "prettier/prettier": ["error", {
-            "endOfLine":"auto"
-          }],
+            "endOfLine": "auto"
+        }]
     },
     settings: {
         react: {

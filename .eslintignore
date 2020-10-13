@@ -4,6 +4,7 @@ node_modules
 dist
 es
 types
+bundle
 # don't lint nyc coverage output
 coverage
 src/serviceWorker.ts

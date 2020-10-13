@@ -4,7 +4,12 @@ import { ConfigProps } from '../../interfaces/FlexChat';
 import preEngagementConfig from './preEngagementForm';
 import texts, { translateText } from '../../assets/texts';
 
-const config = (config: ConfigProps, isDarkMode: boolean, isDisabled = false): Config => ({
+const config = (
+    config: ConfigProps,
+    isDarkMode: boolean,
+    enableTranslation: boolean,
+    isDisabled = false,
+): Config => ({
     available: !isDisabled,
     accountSid: config.flexAccountSid,
     flexFlowSid: config.flexFlowSid,
@@ -28,10 +33,12 @@ const config = (config: ConfigProps, isDarkMode: boolean, isDisabled = false): C
         acceptedExtensions: ['png', 'gif', 'jpg', 'jpeg', 'pdf'],
     },
     preEngagementConfig: preEngagementConfig(
+        enableTranslation,
         translateText(
             config.preEngagementFormMessage || texts.preEngagementFormMessage,
             config.user.preferredLanguage?.includes('-NO'),
         ),
+        config.user.preferredLanguage,
     ),
     sdkOptions: {
         chat: {

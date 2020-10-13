@@ -7,14 +7,16 @@ interface TranslationBubbleBodyProps {
     key: string;
     message?: any;
     perferredLanguage: string;
+    ref?: any;
 }
 
 const TranslationBubbleBody: React.FC<TranslationBubbleBodyProps> = (props) => {
     const { message, perferredLanguage } = props;
-    const { translateText } = useTranslation();
+    const { translateTextAsync } = useTranslation();
 
     const [translatedText, setTranslatedText] = useState<undefined | TranslateResponse>();
     const [currentTranslation, setCurrentTranslation] = useState<string>('en');
+    const [isLoading, setIsLoading] = useState<boolean>(false);
 
     const textBoxStyle: React.CSSProperties = {
         padding: '0 12px 5px 12px',
@@ -43,16 +45,18 @@ const TranslationBubbleBody: React.FC<TranslationBubbleBodyProps> = (props) => {
         if (!message.isFromMe && message.index) {
             const shortenedLangugeCode = perferredLanguage.split('-')[0];
 
-            if (message?.source?.state?.body) {
-                translateText(message.source.state.body, [shortenedLangugeCode, 'en'])
-                    .then((respose) => setTranslatedText(respose.data[0]))
-                    .catch((err) => console.error('Translation error:', err));
-            }
+            setIsLoading(true);
 
             if (message?.source?.body) {
-                translateText(message.source.body, [shortenedLangugeCode, 'en'])
+                translateTextAsync(message.source.body, [shortenedLangugeCode, 'en'])
                     .then((respose) => setTranslatedText(respose.data[0]))
-                    .catch((err) => console.error('Translation error:', err));
+                    .catch((err) => console.error('Translation error:', err))
+                    .finally(() => setIsLoading(false));
+            } else if (message?.source?.state?.body) {
+                translateTextAsync(message.source.state.body, [shortenedLangugeCode, 'en'])
+                    .then((respose) => setTranslatedText(respose.data[0]))
+                    .catch((err) => console.error('Translation error:', err))
+                    .finally(() => setIsLoading(false));
             }
         }
     }, [message, perferredLanguage]);
@@ -94,9 +98,25 @@ const TranslationBubbleBody: React.FC<TranslationBubbleBodyProps> = (props) => {
                         marginTop: '5px',
                     }}
                 >
-                    <button className="showTranslation__button" onClick={toggleTranslation}>
-                        {currentTranslation === 'en' ? 'Show Original' : `Show Translation`}
-                    </button>
+                    {isLoading ? (
+                        <button
+                            disabled
+                            className="showTranslation__button"
+                            style={{ color: 'black' }}
+                            onClick={toggleTranslation}
+                        >
+                            Loading Translation
+                        </button>
+                    ) : (
+                            <button className="showTranslation__button" onClick={toggleTranslation}>
+                                Show{' '}
+                                {nextTranslation() === 'en'
+                                    ? `English`
+                                    : nextTranslation() === 'original'
+                                        ? 'Original'
+                                        : 'Translation'}
+                            </button>
+                        )}
                 </div>
             )}
         </div>

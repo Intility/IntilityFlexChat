@@ -28,6 +28,8 @@ import NotificationButton from './NotificationButton';
 import Texts, { translateText } from '../assets/texts';
 import TranslationBubbleBody from './TranslationBubbleBody';
 import TranslationInfoHeader from './TranslationInfoHeader';
+import useTranslation from '../hooks/useTranslation';
+import { v4 as uuidv4 } from 'uuid';
 
 const defaultManagerState = {
     loading: false,
@@ -40,12 +42,17 @@ const FlexChat: React.FC<FlexChatProps> = ({
     isDarkMode,
     isDisabled = false,
     isDev = false,
+    enableTranslation = false,
 }) => {
     const [managerState, setManagerState] = useState<ManagerState>(defaultManagerState);
     const { manager, loading, error } = managerState;
-    const { flexFlowSid, flexAccountSid, user, closeInInit } = config;
+    const { flexFlowSid, flexAccountSid, user } = config;
     const isNorwegian = user.preferredLanguage?.includes('-NO');
     const { toggleChatVisibility } = useChatActions();
+
+    const { translateTextAsync } = useTranslation();
+
+    const translationRef = React.createRef();
 
     useEffect(() => {
         if (!flexFlowSid) {
@@ -59,7 +66,10 @@ const FlexChat: React.FC<FlexChatProps> = ({
         if (flexFlowSid && flexAccountSid && user) {
             // If Twilio Chat Manager is initialized update config
             if (manager) {
-                manager.updateConfig(chatConfigBase(config, isDarkMode, isDisabled));
+                console.info('Intility FlexChat: Updating chat config');
+                manager.updateConfig(
+                    chatConfigBase(config, isDarkMode, enableTranslation, isDisabled),
+                );
                 return;
             }
 
@@ -71,16 +81,11 @@ const FlexChat: React.FC<FlexChatProps> = ({
             console.info(`Intility FlexChat: Initializing Intility Chat - v${version}`);
 
             // Build chat config
-            const chatConfig = chatConfigBase(config, isDarkMode, isDisabled);
+            const chatConfig = chatConfigBase(config, isDarkMode, enableTranslation, isDisabled);
 
             EntryPoint.defaultProps.tagline = translateText(Texts.entryPointLabel, isNorwegian);
             MainHeader.defaultProps.imageUrl = logo;
             MainHeader.defaultProps.titleText = isDev ? 'Support Dev' : 'Support';
-
-            // If Entrypoint button is hidden, the Cloe button in the chat header should be hidden as well
-            if (config.theme?.EntryPoint?.display?.includes('none')) {
-                MainHeader.Content.remove('close-button');
-            }
 
             // If In-Browser notifications is supported. Add the custom Notification button to the chat header
             if ('Notification' in window && navigator.permissions) {
@@ -90,24 +95,54 @@ const FlexChat: React.FC<FlexChatProps> = ({
             }
 
             // Since the messages in the chat header is a bit difficult with formatting of timestamps, we are enforcing 24h clock in chat message
+            //MessageBubble.Content.remove('header');
             MessageBubble.Content.remove('header');
             MessageBubble.Content.add(<MessageBubbleHeader key="newHeader" />, { sortOrder: 0 });
 
-            // Translation content
-            // MessageBubble.Content.remove('body');
-            MessageBubble.Content.add(
-                <TranslationBubbleBody
-                    perferredLanguage={user.preferredLanguage}
-                    key="translationBody"
-                />,
-                {
-                    sortOrder: 1,
-                },
-            );
+            if (enableTranslation && localStorage.getItem('chosenLanguage')) {
+                console.log('#1');
+                MessageBubble.Content.remove('body');
 
-            MainContainer.Content.add(<TranslationInfoHeader key="translationInfoHeader" />, {
-                sortOrder: 0,
-            });
+                const chosenLanguage: string = localStorage.getItem('chosenLanguage')!;
+
+                new Promise((res) => {
+                    console.log(MessageBubble.Content.fragments);
+
+                    MessageBubble.Content.fragments
+                        .map((e) => (e.props.children as any).key)
+                        .filter((key) => key.includes('translationBody'))
+                        .forEach((f) => MessageBubble.Content.remove(f));
+
+                    MainContainer.Content.fragments
+                        .map((e) => (e.props.children as any).key)
+                        .filter((key) => key.includes('translationInfoHeader'))
+                        .forEach((f) => MainContainer.Content.remove(f));
+
+                    //MainContainer.Content.remove('translationInfoHeader');
+                    MessageBubble.Content.remove('body');
+                    console.log('Removed');
+                    res();
+                }).then(() => {
+                    MessageBubble.Content.add(
+                        <TranslationBubbleBody
+                            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                            perferredLanguage={chosenLanguage}
+                            key={`translationBody_${uuidv4()}`}
+                        />,
+                        {
+                            sortOrder: 1,
+                        },
+                    );
+
+                    MainContainer.Content.add(
+                        <TranslationInfoHeader key={`translationInfoHeader_${uuidv4()}`} />,
+                        {
+                            sortOrder: 0,
+                        },
+                    );
+                    console.log('Added');
+                });
+            }
 
             // Customize the content of the first welcome message sent in the chat
             MessagingCanvas.defaultProps.predefinedMessage = {
@@ -132,17 +167,77 @@ const FlexChat: React.FC<FlexChatProps> = ({
                         manager,
                     });
 
-                    // If preEngagementConfig then send as first message
-                    if (chatConfig.preEngagementConfig) {
-                        Actions.on('afterStartEngagement', () => {
-                            const question = isDev ? 'danitest123' : 'Start Chat';
+                    if (enableTranslation) {
+                        Actions.replaceAction('SendMessage', async (payload, original) => {
+                            return translateTextAsync(payload.body, 'en')
+                                .then((response) => {
+                                    const translatedText = response.data[0].translations.find(
+                                        (t) => t.to === 'en',
+                                    )?.text;
 
-                            const { channelSid } = manager.store.getState().flex.session;
-                            manager.chatClient
-                                .getChannelBySid(channelSid)
-                                .then((channel) => channel.sendMessage(question));
+                                    const replacedPaload = Object.assign({}, payload);
+                                    replacedPaload.body = translatedText;
+
+                                    original(replacedPaload);
+                                })
+                                .catch(() => original(payload));
                         });
                     }
+
+                    // Send the initialize message
+                    Actions.addListener('afterStartEngagement', (value) => {
+                        const question = isDev ? 'danitest123' : 'Start Chat';
+
+                        const { channelSid } = manager.store.getState().flex.session;
+                        manager.chatClient
+                            .getChannelBySid(channelSid)
+                            .then((channel) => channel.sendMessage(question));
+
+                        if (enableTranslation && value.formData.chosenLanguage) {
+                            localStorage.setItem('chosenLanguage', value.formData.chosenLanguage);
+                            manager.configuration.context.user.chosenLanguage =
+                                value.formData.chosenLanguage;
+
+                            new Promise((res) => {
+                                MessageBubble.Content.fragments
+                                    .map((e) => (e.props.children as any).key)
+                                    .filter((key) => key.includes('translationBody'))
+                                    .forEach((f) => MessageBubble.Content.remove(f));
+
+                                MainContainer.Content.fragments
+                                    .map((e) => (e.props.children as any).key)
+                                    .filter((key) => key.includes('translationInfoHeader'))
+                                    .forEach((f) => MainContainer.Content.remove(f));
+
+                                //MainContainer.Content.remove('translationInfoHeader');
+                                MessageBubble.Content.remove('body');
+                                console.log('Removed');
+                                res();
+                            }).then(() => {
+                                MessageBubble.Content.add(
+                                    <TranslationBubbleBody
+                                        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                                        perferredLanguage={value.formData.chosenLanguage}
+                                        ref={translationRef}
+                                        key={`translationBody_${uuidv4()}`}
+                                    />,
+                                    {
+                                        sortOrder: 1,
+                                    },
+                                );
+
+                                MainContainer.Content.add(
+                                    <TranslationInfoHeader
+                                        key={`translationInfoHeader_${uuidv4()}`}
+                                    />,
+                                    {
+                                        sortOrder: 0,
+                                    },
+                                );
+                                console.log('Added');
+                            });
+                        }
+                    });
 
                     // Initialize the custom actions
                     initActions(manager);

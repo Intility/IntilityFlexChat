@@ -13,3 +13,11 @@
 .Twilio-MessagingCanvas {
     max-width: 100% !important;
 }
+
+#menu-chosenLanguage {
+    font-family: Open Sans, sans-serif;
+}
+
+.Twilio-Dropdown {
+    width: 0 !important;
+}
