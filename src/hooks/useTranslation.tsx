@@ -1,6 +1,5 @@
 import axios, { AxiosResponse } from 'axios';
 import { TranslateResponse, TranslateRequest } from '../interfaces/Translate';
-import { v4 as uuidv4 } from 'uuid';
 
 const useTranslation = () => {
     const { REACT_APP_AZURE_TRANSLATOR_KEY } = process.env;

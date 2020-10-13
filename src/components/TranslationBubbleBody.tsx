@@ -108,15 +108,15 @@ const TranslationBubbleBody: React.FC<TranslationBubbleBodyProps> = (props) => {
                             Loading Translation
                         </button>
                     ) : (
-                            <button className="showTranslation__button" onClick={toggleTranslation}>
-                                Show{' '}
-                                {nextTranslation() === 'en'
-                                    ? `English`
-                                    : nextTranslation() === 'original'
-                                        ? 'Original'
-                                        : 'Translation'}
-                            </button>
-                        )}
+                        <button className="showTranslation__button" onClick={toggleTranslation}>
+                            Show{' '}
+                            {nextTranslation() === 'en'
+                                ? `English`
+                                : nextTranslation() === 'original'
+                                ? 'Original'
+                                : 'Translation'}
+                        </button>
+                    )}
                 </div>
             )}
         </div>
