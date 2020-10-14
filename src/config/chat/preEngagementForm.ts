@@ -10,7 +10,7 @@ const preEngagementConfig = (
     message,
     submitLabel: 'Start Chat',
     fields: [
-        enableTranslation && !preferredLanguage.includes('-NO')
+        enableTranslation
             ? {
                 label: `We will translate your chat to english. Please select what language we will translate from. Your registred language is: ${languageNameFromCode(
                     preferredLanguage,

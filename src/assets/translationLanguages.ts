@@ -12,13 +12,23 @@ export const languageNameFromCode = (code: string): string => {
             return 'German / Deutsch';
         case 'en-US':
             return 'English';
+        case 'nb-NO':
+            return 'Norwegian / Norsk';
         default:
             return `Unknown: ${code}`;
     }
 };
 
 export const generateLanguages = (preferredLanguage: string) => {
-    const allowedLanguages: string[] = ['en-US', 'es-ES', 'fr-FR', 'it-IT', 'de-DE', 'ja-JP'];
+    const allowedLanguages: string[] = [
+        'en-US',
+        'es-ES',
+        'fr-FR',
+        'it-IT',
+        'de-DE',
+        'ja-JP',
+        'nb-NO',
+    ];
 
     return allowedLanguages
         .sort((a, b) => languageNameFromCode(a).localeCompare(languageNameFromCode(b)))
