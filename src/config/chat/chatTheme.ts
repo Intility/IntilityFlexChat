@@ -184,6 +184,10 @@ export const generateTheme = (
         Input: {
             display: 'none',
         },
+        Select: {
+            ...fontFamily,
+            color: isDarkMode ? theme.textLight : theme.textDark,
+        },
         TextArea: {
             ...fontFamily,
             color: isDarkMode ? theme.textLight : theme.textDark,
@@ -231,7 +235,7 @@ export const generateTheme = (
                 flexGrow: 0,
             },
             // Style Form description
-            '& div form div:first-child': {
+            '& div form > div:first-child': {
                 fontSize: '19px',
             },
             // Style form message

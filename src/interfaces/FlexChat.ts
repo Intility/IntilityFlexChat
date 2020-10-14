@@ -7,6 +7,7 @@ export type FlexChatProps = {
     isDev?: boolean;
     isDarkMode: boolean;
     isDisabled?: boolean;
+    enableTranslation?: boolean;
 };
 
 export type MultiLangText = {
@@ -17,6 +18,8 @@ export type MultiLangText = {
 export type ConfigProps = {
     flexFlowSid?: string;
     flexAccountSid?: string;
+    translatorKey?: string;
+    closeInInit?: boolean;
     loglevel?: 'debug' | 'superDebug';
     closeOnInit?: boolean;
     theme?: ThemeConfig;

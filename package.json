@@ -1,7 +1,7 @@
 {
     "name": "@intility/flex-chat",
     "description": "Wrapped component with basic setup and theming based on Twilios WebChat Component",
-    "version": "1.2.10",
+    "version": "1.3.0",
     "license": "MIT",
     "deprecated": false,
     "author": {
@@ -41,7 +41,9 @@
         "@fortawesome/free-solid-svg-icons": "^5.13.0",
         "@fortawesome/react-fontawesome": "^0.1.9",
         "@twilio/flex-webchat-ui": "^2.5.0",
-        "react-scripts": "3.4.1"
+        "axios": "^0.19.2",
+        "react-scripts": "3.4.1",
+        "uuid": "^8.3.1"
     },
     "devDependencies": {
         "@babel/cli": "^7.8.4",
@@ -60,6 +62,7 @@
         "@types/node": "^12.12.37",
         "@types/react": "^16.9.34",
         "@types/react-dom": "^16.9.7",
+        "@types/uuid": "^8.3.0",
         "@typescript-eslint/eslint-plugin": "^2.34.0",
         "@typescript-eslint/parser": "^2.34.0",
         "eslint-config-prettier": "^6.11.0",

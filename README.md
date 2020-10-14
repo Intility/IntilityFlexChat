@@ -1,6 +1,6 @@
 # Intility Chat
 
-![Build and deploy package to npm](https://github.com/Intility/IntilityFlexChat/workflows/Build%20and%20deploy%20package%20to%20npm/badge.svg)
+![Build and deploy package to NPM](https://github.com/Intility/IntilityFlexChat/workflows/Build%20and%20deploy%20package%20to%20npm/badge.svg)
 
 Intility Chat is a React Component that wraps [Twilio's WebChat UI](https://www.npmjs.com/package/@twilio/flex-webchat-ui) with basic configuration and theme.
 
@@ -50,8 +50,9 @@ REACT_APP_FLOW_SID=xxxxx
 
 ```ts
 type ConfigProps = {
-    flexFlowSid?: string;
-    flexAccountSid?: string;
+    flexFlowSid: string;
+    flexAccountSid: string;
+    user: ChatContext; // User context
     loglevel?: 'debug' | 'superDebug';
     closeOnInit?: boolean;
     theme?: ThemeConfig;
@@ -77,7 +78,7 @@ Since this package initializes an chat session with an Intility Support Agent th
 ```ts
 type AllowedValues = string | number | boolean | undefined | null | string[] | number[] | boolean[] | object;
 
-type UserConfigProps = {
+type ChatContext = {
     userPrincipalName: string;
     mail: string;
     mobilePhone: string;
