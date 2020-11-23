@@ -50,7 +50,7 @@ export type AllowedValues =
     | string[]
     | number[]
     | boolean[]
-    | object;
+    | Record<string, any>;
 
 export type ManagerState = {
     loading: boolean;

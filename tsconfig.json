@@ -1,37 +1,33 @@
 {
-    "compilerOptions": {
-        "lib": [
-            "dom",
-            "dom.iterable",
-            "esnext"
-        ],
-        "allowJs": false,
-        "skipLibCheck": true,
-        "allowSyntheticDefaultImports": true,
-        "forceConsistentCasingInFileNames": true,
-        "module": "esnext",
-        "resolveJsonModule": true,
-        "jsx": "react",
-        // Target latest version of ECMAScript.
-        "target": "ES2015", //"esnext",
-        // Search under node_modules for non-relative imports.
-        "moduleResolution": "node",
-        // Don't emit; allow Babel to transform files.
-        "noEmit": true,
-        // Enable strictest settings like strictNullChecks & noImplicitAny.
-        "strict": true,
-        // Disallow features that require cross-file information for emit.
-        "isolatedModules": true,
-        // Import non-ES modules as default imports.
-        "esModuleInterop": true
-    },
-    "include": [
-        "src/**/*"
+  "compilerOptions": {
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
     ],
-    "exclude": [
-        "node_modules",
-        "dist",
-        "es",
-        "bundle"
-    ]
+    "allowJs": false,
+    "skipLibCheck": true,
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+    "module": "esnext",
+    "resolveJsonModule": true,
+    "jsx": "react",
+    "target": "ES2015",
+    "moduleResolution": "node",
+    "noEmit": true,
+    "strict": true,
+    "isolatedModules": true,
+    "esModuleInterop": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitAny": false
+  },
+  "include": [
+    "src/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "es",
+    "bundle"
+  ]
 }

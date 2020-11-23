@@ -103,25 +103,29 @@ const FlexChat: React.FC<FlexChatProps> = ({
                 console.log('#1');
                 MessageBubble.Content.remove('body');
 
+                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                 const chosenLanguage: string = localStorage.getItem('chosenLanguage')!;
 
                 new Promise((res) => {
                     console.log(MessageBubble.Content.fragments);
 
                     MessageBubble.Content.fragments
-                        .map((e) => (e.props.children as any).key)
-                        .filter((key) => key.includes('translationBody'))
+                        //@ts-ignore
+                        .map((e) => e.props.children.key)
+                        .filter((key: string | string[]) => key.includes('translationBody'))
                         .forEach((f) => MessageBubble.Content.remove(f));
 
                     MainContainer.Content.fragments
-                        .map((e) => (e.props.children as any).key)
+                        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                        //@ts-ignore
+                        .map((e) => e.props.children.key)
                         .filter((key) => key.includes('translationInfoHeader'))
                         .forEach((f) => MainContainer.Content.remove(f));
 
                     //MainContainer.Content.remove('translationInfoHeader');
                     MessageBubble.Content.remove('body');
                     console.log('Removed');
-                    res();
+                    res(true);
                 }).then(() => {
                     MessageBubble.Content.add(
                         <TranslationBubbleBody
@@ -212,7 +216,7 @@ const FlexChat: React.FC<FlexChatProps> = ({
                                 //MainContainer.Content.remove('translationInfoHeader');
                                 MessageBubble.Content.remove('body');
                                 console.log('Removed');
-                                res();
+                                res(true);
                             }).then(() => {
                                 MessageBubble.Content.add(
                                     <TranslationBubbleBody
