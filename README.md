@@ -78,11 +78,21 @@ Since this package initializes an chat session with an Intility Support Agent th
 ```ts
 type AllowedValues = string | number | boolean | undefined | null | string[] | number[] | boolean[] | object;
 
-type ChatContext = {
+type ChatContext = { 
+    // Value to be displayed as the sender in the chat. 
+    // This should be the authenitcated users full name if available, but fallback to the users login EMail.
     userPrincipalName: string;
+    
+    // The email used for login for the user
     mail: string;
+    
+    // Telephone number for the user
     mobilePhone: string;
+    
+    // The preferred language for the user. Should follow ISO 639-1 Code
     preferredLanguage: string;
+    
+    // Other user context is welcome and can be sent as other optional properties.
     [key: string]: AllowedValues;
 };
 ```
