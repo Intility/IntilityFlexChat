@@ -17,7 +17,7 @@ const config = (
         overrides: generateTheme(isDarkMode, config.theme),
     },
     context: {
-        locationOrigin: window.location.origin,
+        locationOrigin: window.location.href,
         friendlyName: config.user.userPrincipalName,
         user: config.user,
     },

@@ -5,7 +5,7 @@ export type FlexChatProps = {
     children?: ReactNode;
     config: ConfigProps;
     isDev?: boolean;
-    isDarkMode: boolean;
+    isDarkMode?: boolean;
     isDisabled?: boolean;
     enableTranslation?: boolean;
 };

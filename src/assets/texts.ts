@@ -11,7 +11,7 @@ const preEngagementFormMessage: MultiLangText = {
 
 const entryPointLabel: MultiLangText = {
     en: 'Chat with us',
-    no: 'Snakk med oss',
+    no: 'Chat med oss',
 };
 
 const predefinedMessage: MultiLangText = {

@@ -6,12 +6,12 @@ import '../styles/TranslationBubbleBody.css';
 interface TranslationBubbleBodyProps {
     key: string;
     message?: any;
-    perferredLanguage: string;
+    preferredLanguage: string;
     ref?: any;
 }
 
 const TranslationBubbleBody: React.FC<TranslationBubbleBodyProps> = (props) => {
-    const { message, perferredLanguage } = props;
+    const { message, preferredLanguage } = props;
     const { translateTextAsync } = useTranslation();
 
     const [translatedText, setTranslatedText] = useState<undefined | TranslateResponse>();
@@ -33,37 +33,41 @@ const TranslationBubbleBody: React.FC<TranslationBubbleBodyProps> = (props) => {
         marginBottom: '0',
     };
 
-    // Update default translation language with users perferred language
+    // Update default translation language with users preferred language
     useEffect(() => {
-        const shortenedLangugeCode = perferredLanguage.split('-')[0];
-        setCurrentTranslation(shortenedLangugeCode);
-    }, [perferredLanguage]);
+        const shortenedLanguageCode = preferredLanguage.split('-')[0];
+        setCurrentTranslation(shortenedLanguageCode);
+    }, [preferredLanguage]);
 
     // Make request to translate text
     useEffect(() => {
         // message.index is populated for messages sent in chat.
         if (!message.isFromMe && message.index) {
-            const shortenedLangugeCode = perferredLanguage.split('-')[0];
+            const shortenedLanguageCode = preferredLanguage.split('-')[0];
 
             setIsLoading(true);
 
             if (message?.source?.body) {
-                translateTextAsync(message.source.body, [shortenedLangugeCode, 'en'])
-                    .then((respose) => setTranslatedText(respose.data[0]))
+
+                translateTextAsync(message.source.body, [shortenedLanguageCode, 'en'])
+                    .then((res) => setTranslatedText(res.data[0]))
                     .catch((err) => console.error('Translation error:', err))
                     .finally(() => setIsLoading(false));
+
             } else if (message?.source?.state?.body) {
-                translateTextAsync(message.source.state.body, [shortenedLangugeCode, 'en'])
-                    .then((respose) => setTranslatedText(respose.data[0]))
+
+                translateTextAsync(message.source.state.body, [shortenedLanguageCode, 'en'])
+                    .then((res) => setTranslatedText(res.data[0]))
                     .catch((err) => console.error('Translation error:', err))
                     .finally(() => setIsLoading(false));
+                    
             }
         }
-    }, [message, perferredLanguage]);
+    }, [message, preferredLanguage]);
 
     /*
-        Orger by translation
-        1. Users perferred language
+        Order by translation
+        1. Users preferred language
         2. English
         3. Original message
     */
@@ -72,7 +76,7 @@ const TranslationBubbleBody: React.FC<TranslationBubbleBodyProps> = (props) => {
             case 'en':
                 return 'original';
             case 'original':
-                return perferredLanguage.split('-')[0];
+                return preferredLanguage.split('-')[0];
             default:
                 return 'en';
         }

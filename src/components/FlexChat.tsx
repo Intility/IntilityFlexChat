@@ -39,7 +39,7 @@ const defaultManagerState = {
 
 const FlexChat: React.FC<FlexChatProps> = ({
     config,
-    isDarkMode,
+    isDarkMode = false,
     isDisabled = false,
     isDev = false,
     enableTranslation = false,
@@ -48,8 +48,8 @@ const FlexChat: React.FC<FlexChatProps> = ({
     const { manager, loading, error } = managerState;
     const { flexFlowSid, flexAccountSid, user } = config;
     const isNorwegian = user.preferredLanguage?.includes('-NO');
-    const { toggleChatVisibility } = useChatActions();
 
+    const { toggleChatVisibility } = useChatActions();
     const { translateTextAsync } = useTranslation();
 
     const translationRef = React.createRef();
@@ -130,7 +130,7 @@ const FlexChat: React.FC<FlexChatProps> = ({
                     MessageBubble.Content.add(
                         <TranslationBubbleBody
                             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                            perferredLanguage={chosenLanguage}
+                            preferredLanguage={chosenLanguage}
                             key={`translationBody_${uuidv4()}`}
                         />,
                         {
@@ -179,10 +179,10 @@ const FlexChat: React.FC<FlexChatProps> = ({
                                         (t) => t.to === 'en',
                                     )?.text;
 
-                                    const replacedPaload = Object.assign({}, payload);
-                                    replacedPaload.body = translatedText;
+                                    const replacedPayload = Object.assign({}, payload);
+                                    replacedPayload.body = translatedText;
 
-                                    original(replacedPaload);
+                                    original(replacedPayload);
                                 })
                                 .catch(() => original(payload));
                         });
@@ -221,7 +221,7 @@ const FlexChat: React.FC<FlexChatProps> = ({
                                 MessageBubble.Content.add(
                                     <TranslationBubbleBody
                                         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                                        perferredLanguage={value.formData.chosenLanguage}
+                                        preferredLanguage={value.formData.chosenLanguage}
                                         ref={translationRef}
                                         key={`translationBody_${uuidv4()}`}
                                     />,
@@ -247,7 +247,7 @@ const FlexChat: React.FC<FlexChatProps> = ({
                     initActions(manager);
 
                     if (!config.closeOnInit) {
-                        // Allways open the chat on init
+                        // Always open the chat on init
                         if (!manager.store.getState().flex.session.isEntryPointExpanded) {
                             toggleChatVisibility();
                         }
