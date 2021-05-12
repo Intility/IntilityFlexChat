@@ -23,10 +23,7 @@ export const generateLanguages = (preferredLanguage: string) => {
     const allowedLanguages: string[] = [
         'en-US',
         'es-ES',
-        'fr-FR',
         'it-IT',
-        'de-DE',
-        'ja-JP',
         'nb-NO',
     ];
 
@@ -37,6 +34,6 @@ export const generateLanguages = (preferredLanguage: string) => {
             label: languageNameFromCode(code),
             selected: allowedLanguages.includes(preferredLanguage)
                 ? code === preferredLanguage
-                : code === 'en-us',
+                : code === 'en-US',
         }));
 };

@@ -37,7 +37,7 @@ const norwegianUiTranslation: Strings = {
     AttachFileInvalidType: `Ugyldig filtype`,
     Connecting: 'Kobler til',
     Disconnected: 'Kobler fra',
-    TypingIndicator: '{{name}} skriver...',
+    TypingIndicator: '{{name}} skriver...'
 };
 
 const notificationBlocked: MultiLangText = {

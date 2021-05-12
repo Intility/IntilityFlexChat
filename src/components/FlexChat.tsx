@@ -148,14 +148,14 @@ const FlexChat: React.FC<FlexChatProps> = ({
                 });
             }
 
-            // Customize the content of the first welcome message sent in the chat
             MessagingCanvas.defaultProps.predefinedMessage = {
                 body: translateText(Texts.predefinedMessage, isNorwegian),
                 authorName: 'Intility Support',
                 isFromMe: false,
-            };
+            }
+            //MessagingCanvas.defaultProps.predefinedMessage = false;
 
-            // Start init of the Twilio Chat Manager with cusom chatConfig
+            // Start init of the Twilio Chat Manager with custom chatConfig
             Manager.create(chatConfig)
                 .then((manager) => {
                     // Translate default string values.
@@ -172,6 +172,7 @@ const FlexChat: React.FC<FlexChatProps> = ({
                     });
 
                     if (enableTranslation) {
+                        console.log()
                         Actions.replaceAction('SendMessage', async (payload, original) => {
                             return translateTextAsync(payload.body, 'en')
                                 .then((response) => {
@@ -190,17 +191,16 @@ const FlexChat: React.FC<FlexChatProps> = ({
 
                     // Send the initialize message
                     Actions.addListener('afterStartEngagement', (value) => {
-                        const question = isDev ? 'danitest123' : 'Start Chat';
+                        const initMessage = isDev ? 'danitest123' : 'Start Chat';
 
                         const { channelSid } = manager.store.getState().flex.session;
                         manager.chatClient
                             .getChannelBySid(channelSid)
-                            .then((channel) => channel.sendMessage(question));
+                            .then((channel) => channel.sendMessage(initMessage));
 
                         if (enableTranslation && value.formData.chosenLanguage) {
                             localStorage.setItem('chosenLanguage', value.formData.chosenLanguage);
-                            manager.configuration.context.user.chosenLanguage =
-                                value.formData.chosenLanguage;
+                            manager.configuration.context.user.chosenLanguage = value.formData.chosenLanguage;
 
                             new Promise((res) => {
                                 MessageBubble.Content.fragments
@@ -225,18 +225,14 @@ const FlexChat: React.FC<FlexChatProps> = ({
                                         ref={translationRef}
                                         key={`translationBody_${uuidv4()}`}
                                     />,
-                                    {
-                                        sortOrder: 1,
-                                    },
+                                    { sortOrder: 1 }
                                 );
 
                                 MainContainer.Content.add(
                                     <TranslationInfoHeader
                                         key={`translationInfoHeader_${uuidv4()}`}
                                     />,
-                                    {
-                                        sortOrder: 0,
-                                    },
+                                    { sortOrder: 0 }
                                 );
                                 console.log('Added');
                             });
