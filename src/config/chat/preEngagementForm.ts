@@ -7,32 +7,21 @@ const preEngagementConfig = (
     preferredLanguage: string,
 ): FormAttributes => ({
     description: 'Velkommen til Intility Chat',
-    message,
+    message: enableTranslation 
+        ? `Your registred language is: ${languageNameFromCode(preferredLanguage)}. We will translate your messages to English, and the agents message will be translated to your language.` 
+        : message,
     submitLabel: 'Start Chat',
     fields: [
-        enableTranslation
-            ? {
-                label: `We will translate your chat to english. Please select what language we will translate from. Your registred language is: ${languageNameFromCode(
-                    preferredLanguage,
-                )}`,
-                type: 'SelectItem',
-                attributes: {
-                    name: 'chosenLanguage',
-                    required: true,
-                    readOnly: false,
-                },
-                options: generateLanguages(preferredLanguage),
-            }
-            : {
-                label: 'Please describe your issue',
-                type: 'InputItem',
-                attributes: {
-                    name: 'question',
-                    type: 'text',
-                    placeholder: 'Type your issue here',
-                    required: false,
-                },
+        {
+            label: 'Please describe your issue',
+            type: 'InputItem',
+            attributes: {
+                name: 'question',
+                type: 'text',
+                placeholder: 'Type your issue here',
+                required: false,
             },
+        }   
     ],
 });
 

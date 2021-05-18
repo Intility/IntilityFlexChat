@@ -99,12 +99,9 @@ const FlexChat: React.FC<FlexChatProps> = ({
             MessageBubble.Content.remove('header');
             MessageBubble.Content.add(<MessageBubbleHeader key="newHeader" />, { sortOrder: 0 });
 
-            if (enableTranslation && localStorage.getItem('chosenLanguage')) {
+            if (enableTranslation && user.preferredLanguage) {
                 console.log('#1');
                 MessageBubble.Content.remove('body');
-
-                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                const chosenLanguage: string = localStorage.getItem('chosenLanguage')!;
 
                 new Promise((res) => {
                     console.log(MessageBubble.Content.fragments);
@@ -130,7 +127,7 @@ const FlexChat: React.FC<FlexChatProps> = ({
                     MessageBubble.Content.add(
                         <TranslationBubbleBody
                             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                            preferredLanguage={chosenLanguage}
+                            preferredLanguage={user.preferredLanguage}
                             key={`translationBody_${uuidv4()}`}
                         />,
                         {
@@ -172,7 +169,6 @@ const FlexChat: React.FC<FlexChatProps> = ({
                     });
 
                     if (enableTranslation) {
-                        console.log()
                         Actions.replaceAction('SendMessage', async (payload, original) => {
                             return translateTextAsync(payload.body, 'en')
                                 .then((response) => {
@@ -198,9 +194,9 @@ const FlexChat: React.FC<FlexChatProps> = ({
                             .getChannelBySid(channelSid)
                             .then((channel) => channel.sendMessage(initMessage));
 
-                        if (enableTranslation && value.formData.chosenLanguage) {
-                            localStorage.setItem('chosenLanguage', value.formData.chosenLanguage);
-                            manager.configuration.context.user.chosenLanguage = value.formData.chosenLanguage;
+                        if (enableTranslation && user.preferredLanguage) {
+                            localStorage.setItem('chosenLanguage', user.preferredLanguage);
+                            manager.configuration.context.user.chosenLanguage = user.preferredLanguage;
 
                             new Promise((res) => {
                                 MessageBubble.Content.fragments
@@ -220,8 +216,7 @@ const FlexChat: React.FC<FlexChatProps> = ({
                             }).then(() => {
                                 MessageBubble.Content.add(
                                     <TranslationBubbleBody
-                                        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                                        preferredLanguage={value.formData.chosenLanguage}
+                                        preferredLanguage={user.preferredLanguage}
                                         ref={translationRef}
                                         key={`translationBody_${uuidv4()}`}
                                     />,
