@@ -1,7 +1,12 @@
 import axios, { AxiosResponse } from 'axios';
 import { TranslateResponse, TranslateRequest } from '../interfaces/Translate';
 
-const useTranslation = () => {
+interface UseTranslation {
+    detectLanguageAsync: (text: string) => Promise<AxiosResponse<any>>;
+    translateTextAsync: (text: string, to: string | string[]) => Promise<AxiosResponse<TranslateResponse[]>>
+}
+
+const useTranslation = (): UseTranslation => {
     const { REACT_APP_AZURE_TRANSLATOR_KEY } = process.env;
     const instance = axios.create({
         baseURL: 'https://api.cognitive.microsofttranslator.com',

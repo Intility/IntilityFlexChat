@@ -1,5 +1,7 @@
 import { FormAttributes } from '@twilio/flex-webchat-ui';
-import { generateLanguages, languageNameFromCode } from '../../assets/translationLanguages';
+
+// @ts-expect-error
+const languageNamesInEnglish = new Intl.DisplayNames(['en'], { type: 'language' });
 
 const preEngagementConfig = (
     enableTranslation: boolean,
@@ -8,7 +10,7 @@ const preEngagementConfig = (
 ): FormAttributes => ({
     description: 'Velkommen til Intility Chat',
     message: enableTranslation 
-        ? `Your registred language is: ${languageNameFromCode(preferredLanguage)}. We will translate your messages to English, and the agents message will be translated to your language.` 
+        ? `Your registred language is: ${languageNamesInEnglish.of(preferredLanguage)}. We will translate your messages to English, and the agents message will be translated to your language.` 
         : message,
     submitLabel: 'Start Chat',
     fields: [
