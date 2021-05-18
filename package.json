@@ -1,7 +1,7 @@
 {
   "name": "@intility/flex-chat",
   "description": "Wrapped component with basic setup and theming based on Twilios WebChat Component",
-  "version": "1.3.7",
+  "version": "1.3.8",
   "license": "MIT",
   "deprecated": false,
   "author": {
