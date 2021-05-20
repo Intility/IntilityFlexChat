@@ -186,13 +186,17 @@ const FlexChat: React.FC<FlexChatProps> = ({
                     }
 
                     // Send the initialize message
-                    Actions.addListener('afterStartEngagement', (value) => {
+                    Actions.addListener('afterStartEngagement', async (value) => {
+
                         const initMessage = isDev ? 'danitest123' : 'Start Chat';
 
                         const { channelSid } = manager.store.getState().flex.session;
-                        manager.chatClient
-                            .getChannelBySid(channelSid)
-                            .then((channel) => channel.sendMessage(initMessage));
+                        const channel = await manager.chatClient.getChannelBySid(channelSid)
+
+                        await channel.sendMessage(initMessage)
+                        if (enableTranslation) {
+                            await channel.sendMessage('NOTE: This chat is auto translated')
+                        }
 
                         if (enableTranslation && user.preferredLanguage) {
                             localStorage.setItem('chosenLanguage', user.preferredLanguage);
