@@ -195,7 +195,7 @@ const FlexChat: React.FC<FlexChatProps> = ({
 
                         await channel.sendMessage(initMessage)
                         if (enableTranslation) {
-                            await channel.sendMessage('NOTE: This chat is auto translated')
+                            await channel.sendMessage('🌍 This chat is AI translated 🌍')
                         }
 
                         if (enableTranslation && user.preferredLanguage) {
